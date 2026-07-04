@@ -1,2 +1,20 @@
-<h1>{{ site.Title }}</h1>
-{{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+<header class="masthead">
+  <div class="margin-rule"></div>
+
+  <div class="masthead-inner">
+    <a class="site-name" href="/">{{ .Site.Title }}</a>
+
+    <nav aria-label="Primary">
+      <ul>
+        {{ range .Site.Menus.main }}
+        <li>
+          <a href="{{ .URL }}"
+            class="{{ if or (eq $.RelPermalink .URL) (and (ne .URL `/`) (hasPrefix $.RelPermalink .URL)) }}active{{ end }}">
+            {{ .Name }}
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+    </nav>
+  </div>
+</header>

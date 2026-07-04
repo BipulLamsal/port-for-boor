@@ -1,10 +1,33 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
 
-  {{ $dateMachine := .Date | time.Format "2006-01-02T15:04:05-07:00" }}
-  {{ $dateHuman := .Date | time.Format ":date_long" }}
-  <time datetime="{{ $dateMachine }}">{{ $dateHuman }}</time>
 
-  {{ .Content }}
-  {{ partial "terms.html" (dict "taxonomy" "tags" "page" .) }}
+<article class="page">
+  <header>
+    <div class="header-container">
+    <h1>{{ .Title }}</h1>
+    <div class="header-blocks">
+        {{range $_, $number := seq 50}}
+        <div class = "pattern-container">
+            <div class="wave-block pattern-{{ mod $number 2 }}" style="--i: {{math.Rand | mul 6 | math.Floor}};"></div>
+        </div> 
+        {{end}}
+    </div>
+    </div>
+
+    
+    {{ if not .Date.IsZero }}
+    <div class="post-meta">
+      Published on {{ .Date.Format "Jan 02, 2006" }}
+      {{ if .Params.tags }}
+        | Tags: {{ range $i, $tag := .Params.tags }}{{ if $i }}, {{ end }}<a href="/tags/{{ $tag | urlize }}">{{ $tag }}</a>{{ end }}
+      {{ end }}
+    </div>
+    {{ end }}
+  </header>
+  <div class="article-content">
+    {{ .Content }}
+  </div>
+</article>
 {{ end }}
+
+

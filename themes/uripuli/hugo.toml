@@ -1,24 +1,16 @@
-baseURL = 'https://example.org/'
-locale = 'en-US'
-title = 'My New Hugo Project'
+baseURL = "https://bipullamsal.com.np"
+languageCode = "en-us"
+title = "Bedgirb"
+theme = "uripuli"
 
-[menus]
-  [[menus.main]]
-    name = 'Home'
-    pageRef = '/'
-    weight = 10
+[menu]
+  [[menu.main]]
+    name   = "Home"
+    url    = "/"
+    weight = 2
 
-  [[menus.main]]
-    name = 'Posts'
-    pageRef = '/posts'
-    weight = 20
-
-  [[menus.main]]
-    name = 'Tags'
-    pageRef = '/tags'
-    weight = 30
-
-[module]
-  [module.hugoVersion]
-    extended = false
-    min = '0.146.0'
+  [[menu.main]]
+    name   = "Notes"
+    url    = "/notes/"
+    weight = 1
+  

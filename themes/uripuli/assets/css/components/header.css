@@ -1,4 +1,99 @@
-header {
-  border-bottom: 1px solid #222;
-  margin-bottom: 1rem;
+.masthead {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  margin-left: 0;
+  margin-right: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.margin-rule {
+  display: none;
+}
+
+.masthead-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding: 24px 24px;
+}
+
+.site-name {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fg-bold);
+  text-decoration: none;
+}
+
+.site-name::after {
+  content: "_";
+  color: var(--accent);
+}
+
+.masthead nav ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+.masthead nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease;
+  display: flex;
+  align-items: center;
+}
+
+.masthead nav a:hover,
+.masthead nav a:focus-visible {
+  color: var(--fg-bold);
+}
+
+.masthead nav a.active {
+  color: var(--accent-light);
+  font-weight: bold;
+}
+
+.masthead nav a.active::before {
+  content: "■ ";
+  color: var(--accent);
+  margin-right: 6px;
+  font-size: 10px;
+}
+
+
+@media (max-width: 920px) {
+  .masthead {
+    margin-left: -48px;
+    margin-right: -48px;
+  }
+  .masthead-inner {
+    padding: 24px 48px;
+  }
+}
+
+@media (max-width: 640px) {
+  .masthead {
+    margin-left: -28px;
+    margin-right: -28px;
+  }
+  .masthead-inner {
+    padding: 24px 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .masthead-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 28px;
+  }
 }

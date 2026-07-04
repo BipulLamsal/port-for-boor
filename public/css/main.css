@@ -1,51 +1,161 @@
-@import "components/header.css";
-@import "components/footer.css";
-
-:root {
-  --bg: #111613;          /* Deep forest */
-  --bg-alt: #1B241D;      /* Card background */
-
-  --fg: #E6F0E8;          /* Soft white with green tint */
-  --fg-bold: #A8C8A2;     /* Sage */
-
-  --accent: #5FBF7A;      /* Emerald */
-  --accent-light: #83D39C;
-
-  --muted: #6F8B74;       /* Moss */
-
-  --border: rgba(147, 184, 154, 0.18);
-
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+/* ns-hugo-imp:/home/bedgirb/Work/notes/themes/uripuli/assets/css/components/header.css */
+.masthead {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  margin-left: 0;
+  margin-right: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.margin-rule {
+  display: none;
+}
+.masthead-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding: 24px 24px;
+}
+.site-name {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fg-bold);
+  text-decoration: none;
+}
+.site-name::after {
+  content: "_";
+  color: var(--accent);
+}
+.masthead nav ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+.masthead nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s ease;
+  display: flex;
+  align-items: center;
+}
+.masthead nav a:hover,
+.masthead nav a:focus-visible {
+  color: var(--fg-bold);
+}
+.masthead nav a.active {
+  color: var(--accent-light);
+  font-weight: bold;
+}
+.masthead nav a.active::before {
+  content: "\25a0  ";
+  color: var(--accent);
+  margin-right: 6px;
+  font-size: 10px;
+}
+@media (max-width: 920px) {
+  .masthead {
+    margin-left: -48px;
+    margin-right: -48px;
+  }
+  .masthead-inner {
+    padding: 24px 48px;
+  }
+}
+@media (max-width: 640px) {
+  .masthead {
+    margin-left: -28px;
+    margin-right: -28px;
+  }
+  .masthead-inner {
+    padding: 24px 28px;
+  }
+}
+@media (max-width: 480px) {
+  .masthead-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 28px;
+  }
 }
 
-/* Custom scrollbar for premium aesthetics */
+/* ns-hugo-imp:/home/bedgirb/Work/notes/themes/uripuli/assets/css/components/footer.css */
+footer {
+  border-top: 1px solid var(--border);
+  max-width: 860px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 40px 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+footer p {
+  margin: 0;
+  color: var(--muted);
+}
+@media (max-width: 920px) {
+  footer {
+    margin-left: -48px;
+    margin-right: -48px;
+    padding: 40px 48px;
+    width: auto;
+  }
+}
+@media (max-width: 640px) {
+  footer {
+    margin-left: -28px;
+    margin-right: -28px;
+    padding: 40px 28px;
+    width: auto;
+  }
+}
+
+/* <stdin> */
+:root {
+  --bg: #111613;
+  --bg-alt: #1B241D;
+  --fg: #E6F0E8;
+  --fg-bold: #A8C8A2;
+  --accent: #5FBF7A;
+  --accent-light: #83D39C;
+  --muted: #6F8B74;
+  --border: rgba(147, 184, 154, 0.18);
+  --font-mono:
+    "JetBrains Mono",
+    ui-monospace,
+    monospace;
+}
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: var(--bg);
 }
-
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.25);
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
 }
-
 * {
   box-sizing: border-box;
 }
-
 html {
   background: var(--bg);
 }
-
-/* Intersecting vertical grid lines touching screen edges */
 html::before {
   content: "";
   position: fixed;
@@ -58,7 +168,6 @@ html::before {
   pointer-events: none;
   transition: background 0.3s ease;
 }
-
 html::after {
   content: "";
   position: fixed;
@@ -71,7 +180,6 @@ html::after {
   pointer-events: none;
   transition: background 0.3s ease;
 }
-
 @media (max-width: 920px) {
   html::before {
     left: 32px;
@@ -80,12 +188,11 @@ html::after {
     left: auto;
     right: 32px;
   }
-  main .header-blocks{
+  main .header-blocks {
     display: none;
-    gap: 16px;              
+    gap: 16px;
   }
 }
-
 @media (max-width: 640px) {
   html::before {
     left: 16px;
@@ -94,17 +201,13 @@ html::after {
     left: auto;
     right: 16px;
   }
-  
-
 }
-
 html,
 body {
   height: auto;
   min-height: 100%;
   margin: 0;
 }
-
 body {
   background: var(--bg);
   color: var(--fg);
@@ -119,24 +222,20 @@ body {
   position: relative;
   -webkit-font-smoothing: antialiased;
 }
-
 @media (max-width: 920px) {
   body {
     padding: 32px 48px;
   }
 }
-
 @media (max-width: 640px) {
   body {
     padding: 16px 28px;
   }
-  body main .pattern{
-      margin-left: -12px;
-      margin-right: -12px;
+  body main .pattern {
+    margin-left: -12px;
+    margin-right: -12px;
   }
 }
-
-/* Solid horizontal grid lines that act as scrolling masks */
 body::before {
   content: "";
   position: fixed;
@@ -150,7 +249,6 @@ body::before {
   pointer-events: none;
   transition: background 0.3s ease;
 }
-
 body::after {
   content: "";
   position: fixed;
@@ -164,7 +262,6 @@ body::after {
   pointer-events: none;
   transition: background 0.3s ease;
 }
-
 @media (max-width: 640px) {
   body::before {
     height: 16px;
@@ -173,12 +270,10 @@ body::after {
     height: 16px;
   }
 }
-
 ::selection {
   background: var(--accent);
   color: #ffffff;
 }
-
 main {
   flex: 1 0 auto;
   display: flex;
@@ -188,18 +283,15 @@ main {
   margin: 0 auto;
   padding: 48px 24px;
 }
-
 @media (max-width: 920px) {
   main {
     padding: 48px 0;
   }
-  main .pattern{
-      margin-left: -14px;
-      margin-right: -14px;
+  main .pattern {
+    margin-left: -14px;
+    margin-right: -14px;
   }
 }
-
-/* Headings */
 h2,
 h3,
 h4 {
@@ -208,17 +300,15 @@ h4 {
   margin-top: 0;
   margin-bottom: 20px;
 }
-
 h1 {
-    display: inline-block;
-    color: var(--bg);
-    font-size: 16px;
-    background-color: var(--accent);
-    margin-bottom: 0;
-    padding: 0px 10px;
-    margin-bottom: 10px;
+  display: inline-block;
+  color: var(--bg);
+  font-size: 16px;
+  background-color: var(--accent);
+  margin-bottom: 0;
+  padding: 0px 10px;
+  margin-bottom: 10px;
 }
-
 h2 {
   font-size: 20px;
   font-weight: 600;
@@ -227,35 +317,28 @@ h2 {
   align-items: center;
   gap: 8px;
 }
-
 h2::before {
   content: "//";
   color: var(--accent);
   font-weight: normal;
 }
-
 p {
   margin-top: 0;
   margin-bottom: 20px;
 }
-
 a {
   color: var(--accent-light);
   text-decoration: none;
   transition: all 0.15s ease;
 }
-
 a:hover {
   color: var(--accent);
 }
-
-/* Post list */
 .post-list {
   list-style: none;
   padding: 0;
   margin: 30px 0 0 0;
 }
-
 .post-item {
   display: flex;
   flex-direction: row;
@@ -265,77 +348,61 @@ a:hover {
   border-bottom: 1px dashed var(--border);
   transition: all 0.2s ease;
 }
-
 .post-item:hover {
   padding-left: 8px;
   border-bottom-color: var(--accent);
 }
-
 .post-item:last-child {
   border-bottom: none;
 }
-
 .post-date {
   font-size: 13px;
   color: var(--muted);
   min-width: 120px;
   flex-shrink: 0;
 }
-
 .post-title {
   flex-grow: 1;
   font-size: 15px;
   font-weight: 500;
 }
-
 .post-title a {
   color: var(--fg-bold);
   transition: color 0.2s ease;
 }
-
 .post-title a:hover {
   color: var(--accent-light);
 }
-
-/* Article Styling */
 article.page {
   margin-bottom: 60px;
 }
-
 article.page header {
   margin-bottom: 40px;
 }
-
 .post-meta {
   font-size: 13px;
   color: var(--muted);
   margin-top: 10px;
 }
-
 .article-content {
   font-size: 15px;
 }
-
 .article-content p {
   margin-bottom: 24px;
 }
-
 .article-content h2,
 .article-content h3 {
   margin-top: 40px;
   margin-bottom: 16px;
 }
-
 .article-content strong {
   color: var(--accent-light);
   font-weight: 700;
 }
-
 .article-content em {
   color: var(--fg-bold);
   font-style: italic;
 }
-
 .article-content code {
   font-family: var(--font-mono);
   color: var(--accent);
@@ -345,7 +412,6 @@ article.page header {
   border: 1px solid var(--border);
   font-size: 0.9em;
 }
-
 .article-content pre {
   background-color: var(--bg-alt);
   border: 1px solid var(--border);
@@ -354,7 +420,6 @@ article.page header {
   overflow-x: auto;
   margin-bottom: 24px;
 }
-
 .article-content pre code {
   color: var(--fg);
   background-color: transparent;
@@ -363,7 +428,6 @@ article.page header {
   border: none;
   font-size: 0.95em;
 }
-
 .article-content blockquote {
   border-left: 3px solid var(--accent);
   margin: 0 0 24px 0;
@@ -371,96 +435,80 @@ article.page header {
   color: var(--muted);
   font-style: italic;
 }
-
 .article-content blockquote p {
   margin-bottom: 0;
 }
-
 .article-content ul,
 .article-content ol {
   padding-left: 24px;
   margin-bottom: 24px;
 }
-
 .article-content li {
   margin-bottom: 8px;
 }
-
 .article-content li::marker {
   color: var(--accent);
 }
-
-/* Muted info text */
 .intro-text {
   font-size: 16px;
   color: var(--fg);
   line-height: 1.8;
   margin-bottom: 40px;
 }
-
-/* Simple responsive style */
 @media (max-width: 640px) {
   .post-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
   }
-
   .post-date {
     min-width: auto;
   }
 }
-
 .recent-posts {
-    margin-top: auto;
-    margin-bottom: 40px;
-
+  margin-top: auto;
+  margin-bottom: 40px;
 }
-.pattern{
-    display: flex;
-    width: auto;
-    margin-left: -24px;
-    margin-right: -24px;
-    margin-top: 0;
-    margin-bottom: -48px;
+.pattern {
+  display: flex;
+  width: auto;
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-top: 0;
+  margin-bottom: -48px;
 }
-
 .header-blocks {
-    flex: 1;             
-    display: flex;
-    gap: 4px;
+  flex: 1;
+  display: flex;
+  gap: 4px;
 }
-
 .header-container {
-    display: flex;
-    align-items: center; 
-    gap: 12px;           
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-
-.pattern-container{
-    flex: 1;
+.pattern-container {
+  flex: 1;
 }
-.pattern-0{
-    height: 25px;
-    background-color: var(--accent-light);
+.pattern-0 {
+  height: 25px;
+  background-color: var(--accent-light);
 }
-
-.pattern-1{
-    height: 25px;
-    background: var(--border);
+.pattern-1 {
+  height: 25px;
+  background: var(--border);
 }
-
 @keyframes opacity-wave {
   0%, 100% {
-    opacity: 0.1; 
+    opacity: 0.1;
   }
   50% {
-    opacity: 1; 
+    opacity: 1;
   }
 }
 .wave-block {
-    opacity: 0;
-    animation: opacity-wave 4s cubic-bezier(0.39, 0.575, 0.565, 1) infinite;
-    animation-delay: calc(var(--i) * -0.5s);
+  opacity: 0;
+  animation: opacity-wave 4s cubic-bezier(0.39, 0.575, 0.565, 1) infinite;
+  animation-delay: calc(var(--i) * -0.5s);
 }
-
+/*# sourceMappingURL=main.css.map */

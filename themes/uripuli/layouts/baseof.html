@@ -9,8 +9,32 @@
   </header>
   <main>
     {{ block "main" . }}{{ end }}
+
+    <section class="recent-posts">
+      <h2>My notes</h2>
+      <ul class="post-list">
+        {{ range (where site.RegularPages "Section" "notes") }}
+        <li class="post-item">
+          <span class="post-date">{{ .Date.Format "Jan 02, 2006" }}</span>
+          <span class="post-title">
+            <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+          </span>
+        </li>
+        {{ end }}
+      </ul>
+    </section>
+
+    <div class="pattern">
+        {{range $_, $number := seq 40}}
+        <div class = "pattern-container">
+            <div class="wave-block pattern-{{ mod (add $number 1) 2}}" style="--i: {{math.Rand | mul 6 | math.Floor}};"></div>
+            <div class="wave-block pattern-{{ mod $number 2 }}" style="--i: {{math.Rand | mul 6 | math.Floor}};"></div>
+        </div> 
+        {{end}}
+    </div>
   </main>
   <footer>
+
     {{ partial "footer.html" . }}
   </footer>
 </body>

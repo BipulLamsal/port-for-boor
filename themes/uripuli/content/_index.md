@@ -1,9 +1,9 @@
 +++
 title = 'Home'
 date = 2023-01-01T08:00:00-07:00
-draft = false
+draft = false 
 +++
 
-Laborum voluptate pariatur ex culpa magna nostrud est incididunt fugiat
-pariatur do dolor ipsum enim. Consequat tempor do dolor eu. Non id id anim anim
-excepteur excepteur pariatur nostrud qui irure ullamco.
+Hi, I am Bipul **(bebgrib)**. I am a Rust & C engineer. Despite a questionable choice of cs degree; I truely love programming in general and hate AI slop. I try to do recreation programming, hitting my head, thinking and solving a very simple problem with my tiny brain cell.
+
+
