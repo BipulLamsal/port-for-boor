@@ -1,5 +1,19 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
+<div class="header-container">
+    <h1>{{ .Title }}</h1>
+    <div class="header-blocks">
+        {{range $_, $number := seq 50}}
+        <div class = "pattern-container">
+            <div class="wave-block pattern-{{ mod $number 2 }}" style="--i: {{math.Rand | mul 6 | math.Floor}};"></div>
+        </div> 
+        {{end}}
+    </div>
+</div>
+
+
+
+
+
 
 {{ if .Content }}
 <div class="section-content" style="margin-bottom: 40px;">

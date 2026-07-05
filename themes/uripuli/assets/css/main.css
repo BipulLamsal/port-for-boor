@@ -464,3 +464,5 @@ article.page header {
     animation-delay: calc(var(--i) * -0.5s);
 }
 
+img {
+width: 100%;}

@@ -511,4 +511,7 @@ article.page header {
   animation: opacity-wave 4s cubic-bezier(0.39, 0.575, 0.565, 1) infinite;
   animation-delay: calc(var(--i) * -0.5s);
 }
+img {
+  width: 100%;
+}
 /*# sourceMappingURL=main.css.map */

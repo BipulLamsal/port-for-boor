@@ -21,6 +21,7 @@ If you are reading till here, you are a very good of a person, you genuiely care
 
 Here are some bulletpoints for me for you for everyone :  
 
+- treat you body like a temple. Your body isn't just carrying your dreams, it’s carrying your spirit through life.
 - please stop comparing yourselves to other 
 - drink plenty of water, have a plant, water it also 
 - look for your health
@@ -32,5 +33,5 @@ Here are some bulletpoints for me for you for everyone :
 - look after your family, at the end they will be that matter the most
 - and smile to everyone, help everyone 
 
-But at the end live you life to your fullest, you should always have a goal to travel, meet new people (you'll find very arrogant one to very humble with so much achievements but is lowlkey doesn't give a fk about it). Enough Yappn bro, you'll make it just make sure you don't let people down and forget them once you achieve.       
+But at the end live you life to your fullest, you should always have a goal to travel, meet new people (you'll find very arrogant one to very humble with so much achievements but is lowlkey doesn't give a fk about it). Enough Yappn bro, you'll make it just make sure you don't let people down and never forget them once you achieve.       
 

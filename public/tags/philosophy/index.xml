@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Philosophy on Bedgirb</title>
-    <link>http://localhost:34591/tags/philosophy/</link>
+    <link>http://localhost:1313/tags/philosophy/</link>
     <description>Recent content in Philosophy on Bedgirb</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 18 Mar 2026 11:00:00 -0700</lastBuildDate>
-    <atom:link href="http://localhost:34591/tags/philosophy/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/philosophy/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How to look at life?</title>
-      <link>http://localhost:34591/notes/post-3/</link>
+      <link>http://localhost:1313/notes/how-to-look-at-life/</link>
       <pubDate>Wed, 18 Mar 2026 11:00:00 -0700</pubDate>
-      <guid>http://localhost:34591/notes/post-3/</guid>
+      <guid>http://localhost:1313/notes/how-to-look-at-life/</guid>
       <description>&lt;p&gt;We&amp;rsquo;ll I am no guru to tell anyone, how one should live a life. But, I am here to yap to test how well this markdown is looking on my markup page. On average we get &lt;code&gt;70 summers&lt;/code&gt; to live a life, but this is a pessimistic way of thinking. Instead think we have &lt;strong&gt;70 summers&lt;/strong&gt;, &lt;em&gt;70 winters, 70 autumns &amp;amp; 70 springs&lt;/em&gt; to live. But, no this ain&amp;rsquo;t it. Time flows so fast, you wouldn&amp;rsquo;t even realize you are becoming &lt;strong&gt;bald&lt;/strong&gt; day by day. Every now and then when i think about time, I realize there are less time left for my parents as well.&lt;/p&gt;</description>
     </item>
   </channel>

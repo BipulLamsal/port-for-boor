@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Linux cron jobs give you the power | Bedgirb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+      <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+
+
+</head>
+<body>
+  <header>
+    <header class="masthead">
+  <div class="margin-rule"></div>
+
+  <div class="masthead-inner">
+    <a class="site-name" href="/">Bedgirb</a>
+
+    <nav aria-label="Primary">
+      <ul>
+        
+        <li>
+          <a href="/"
+            class="">
+            Home
+          </a>
+        </li>
+        
+        <li>
+          <a href="/notes/"
+            class="active">
+            Notes
+          </a>
+        </li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  </header>
+  <main>
+    
+
+
+<article class="page">
+  <header>
+    <div class="header-container">
+    <h1>Linux cron jobs give you the power</h1>
+    <div class="header-blocks">
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+    </div>
+    </div>
+
+    
+    
+    <div class="post-meta">
+      Published on Jun 09, 2023
+      
+        | Tags: <a href="/tags/linux">linux</a>
+      
+    </div>
+    
+  </header>
+  <div class="article-content">
+    <p>As an Asian, I&rsquo;m familiar with my parents always keeping a close eye on me, checking if I&rsquo;m studying, gaming, or chatting. It&rsquo;s like they have a background process running, giving those bombastic side eye 👀 glances. Similarly, Linux&rsquo;s cron job operates silently in the background, automating tasks. I found this parallel intriguing: both involve monitoring and control. There is a cron daemon already inside Linux that helps you execute commands or scripts at predefined time intervals. We can automate tasks like</p>
+<ol>
+<li>
+<p>Periodically backing up the data</p>
+</li>
+<li>
+<p>Periodically deleting unused files or folders</p>
+</li>
+<li>
+<p>Periodically Scrape some website periodically</p>
+</li>
+<li>
+<p>Logging program data and storing</p>
+</li>
+<li>
+<p>Send yourself a motivation quotes</p>
+</li>
+<li>
+<p>Periodically change the wallpapers</p>
+</li>
+</ol>
+<p><img src="https://gifdb.com/images/high/daily-reminder-to-drink-water-funny-meme-orvd01mhg5mtgvza.gif" alt="drink water"></p>
+<p>or create yourself a reminder which we will create btw. <em>(Periodically counter - 5)</em></p>
+<p>The list can go on; there are endless possibilities for what we can do with a cron job. Basically, cron is a daemon service that constantly checks the system time against the schedule defined in the cron table. When the current time matches the schedule, <code>cron</code> triggers the associated commands. It&rsquo;s a powerful tool for system administrators.</p>
+<h3 id="running-cron-job">Running Cron job</h3>
+<p>cron is already installed in <code>apt-based</code> Linux, but if it not installed in your system there are many tutorials on how to install it. Mine is arch Linux, to install <strong>crontab</strong> (command line utility for cron alias for cron table).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pacman -Syu cronie
+</span></span><span style="display:flex;"><span>systemctl enable --now cronie.service
+</span></span></code></pre></div><p>systemctl is another command line utility that manages systemd and service, you can even manage your own service start it on boot and run as a background process.</p>
+<ol>
+<li>
+<p>Add new crontab entry : <code>crontab -e</code> (choose any editor)</p>
+</li>
+<li>
+<p>Head over to <code>/var/spool/cron</code> there is a file with your cron jobs under your username</p>
+</li>
+<li>
+<p>open that file in nvim or any other preferred editor</p>
+</li>
+</ol>
+<p>in that file we can set up the cron jobs, it accepts five different time fields which is mentioned below, to play around with time and schedules of cron you can check this <a href="https://crontab.guru/">link</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>* * * * * &lt;commands to execute&gt;
+</span></span><span style="display:flex;"><span>| | | | |
+</span></span><span style="display:flex;"><span>| | | | +---- Day of the week <span style="color:#f92672">(</span><span style="color:#ae81ff">0</span> - 6<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>Sunday to Saturday, <span style="color:#ae81ff">0</span> and <span style="color:#ae81ff">7</span> both represent Sunday<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>| | | +------ Month <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> - <span style="color:#ae81ff">12</span> or Jan - Dec<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>| | +-------- Day of the month <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> - 31<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>| +---------- Hour <span style="color:#f92672">(</span><span style="color:#ae81ff">0</span> - 23<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>+------------ Minute <span style="color:#f92672">(</span><span style="color:#ae81ff">0</span> - 59<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>you can directly start writing * * * * * echo &ldquo;hello world&rdquo; in your terminal. To understand how it works lets give some cj.</p>
+<h3 id="echo-out-periodically-in-txt-file">echo out periodically in txt file</h3>
+<p>Inside the file <code>/var/spool/cron</code> write <code>* * * * * echo &quot;Hello world!&quot; &gt;&gt; ~/test.txt</code> on the top line. you can add other crons below it. We can check if the cron is runnign or not by command <code>crontab -l</code>, We can also view if process is running by command <code>pgrep crond</code>, it shows the process id of the cron. Looks like, we are running cron job, lets view out file in ~/test.txt <code>cat ~/test.txt</code>, it has hello world in it. Hell Yeah!, we just created a cron job.</p>
+<h3 id="notification-service">notification service</h3>
+<p>As mentioned earlier we are going to make a reminder to drink water every hour. Inside the file <code>/var/spool/cron</code> write <code>* 1 * * * ~/</code><a href="http://script.sh"><code>script.sh</code></a> I have written a simple script to notify me to drink the water:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>export DISPLAY=:0
+</span></span><span style="display:flex;"><span>export XDG_RUNTIME_DIR=/run/user/$(id -u)
+</span></span><span style="display:flex;"><span>/usr/bin/notify-send &#34;Drink some water dude! 🌊&#34;
+</span></span></code></pre></div><h3 id="monitoring-tool">monitoring tool</h3>
+<p>Hmm, I recently made an API that sends images or documents to a Telegram bot. I created it so I can send my files via the terminal, <a href="https://spymyson.vercel.app/">spymyson</a>. It&rsquo;s quite fun. I also thought about monitoring my activity throughout the day, so I wrote a simple script to send me screenshots periodically. Inside the file <code>/var/spool/cron</code>, write <code>0 9-17 * * 0-5 ~/</code><a href="http://script.sh"><code>script.sh</code></a>. It runs from 9 AM to 5 PM every Sunday to Friday.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/bash
+</span></span></span><span style="display:flex;"><span>export DISPLAY<span style="color:#f92672">=</span>:1
+</span></span><span style="display:flex;"><span>export XDG_RUNTIME_DIR<span style="color:#f92672">=</span>/run/user/<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>API_ENDPOINT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://spymyson.vercel.app/api/send&#34;</span>
+</span></span><span style="display:flex;"><span>AUTH_TOKEN<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;TOKEN GIVEN BY BOT&#34;</span>
+</span></span><span style="display:flex;"><span>DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">/Pictures/Screenshots&#34;</span>
+</span></span><span style="display:flex;"><span>FILENAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;screenshot.png&#34;</span>
+</span></span><span style="display:flex;"><span>FILEPATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$DIR<span style="color:#e6db74">/</span>$FILENAME<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkdir -p $DIR
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>/usr/bin/scrot -F $FILEPATH -p -q <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>curl -X POST -F <span style="color:#e6db74">&#34;file=@</span>$FILEPATH<span style="color:#e6db74">&#34;</span> -H <span style="color:#e6db74">&#34;Authorization: </span>$AUTH_TOKEN<span style="color:#e6db74">&#34;</span> $API_ENDPOINT
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>rm $FILEPATH
+</span></span></code></pre></div><p>Yeah, that&rsquo;s it. It&rsquo;s a fairly simple thing to do, but it&rsquo;s also powerful. Cron jobs are really fun :)</p>
+
+  </div>
+</article>
+
+
+    <section class="recent-posts">
+      <h2>My notes</h2>
+      <ul class="post-list">
+        
+        <li class="post-item">
+          <span class="post-date">Mar 18, 2026</span>
+          <span class="post-title">
+            <a href="/notes/how-to-look-at-life/">How to look at life?</a>
+          </span>
+        </li>
+        
+        <li class="post-item">
+          <span class="post-date">Jun 09, 2023</span>
+          <span class="post-title">
+            <a href="/notes/basic-linux-cron-job/">Linux cron jobs give you the power</a>
+          </span>
+        </li>
+        
+      </ul>
+    </section>
+
+    <div class="pattern">
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+    </div>
+  </main>
+  <footer>
+
+    <p>Copyright @bedgirb 2026 . All rights reserved.</p>
+
+  </footer>
+</body>
+</html>
