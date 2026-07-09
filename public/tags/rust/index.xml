@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rust on Bedgirb</title>
+    <link>http://localhost:1313/tags/rust/</link>
+    <description>Recent content in Rust on Bedgirb</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 07 May 2026 11:00:00 -0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/rust/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Idea Behind Async Runtimes, Part 2: Futures in rust</title>
+      <link>http://localhost:1313/notes/futures-in-rust/</link>
+      <pubDate>Thu, 07 May 2026 11:00:00 -0700</pubDate>
+      <guid>http://localhost:1313/notes/futures-in-rust/</guid>
+      <description>&lt;p&gt;One of the major sources of confusion when doing async work is the difference between concurrency and parallelism. They look similar on the surface, but they&amp;rsquo;re actually distinct.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Parallelism&lt;/strong&gt; is when separate tasks run truly independently, at the same time, unaffected by each other, like two people each working on their own task simultaneously. This needs multiple CPU cores to actually happen.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Concurrency&lt;/strong&gt;, on the other hand, is about managing multiple tasks so they can all make progress, even on a single core. This is done through context switching: the CPU rapidly hops between tasks, giving priority to bits of each, so fast that it creates the illusion they&amp;rsquo;re happening at the same time, even though at any given instant only one is actually executing.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

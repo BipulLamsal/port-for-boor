@@ -2,13 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/notes/futures-in-rust/</loc>
+    <lastmod>2026-05-07T11:00:00-07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/runtimes/</loc>
+    <lastmod>2026-05-07T11:00:00-07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/rust/</loc>
+    <lastmod>2026-05-07T11:00:00-07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2026-05-07T11:00:00-07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/event-loop/</loc>
+    <lastmod>2026-05-05T11:00:00-07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/notes/async-await-in-a-nutshell/</loc>
+    <lastmod>2026-05-05T11:00:00-07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/javascript/</loc>
+    <lastmod>2026-05-05T11:00:00-07:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/notes/how-to-look-at-life/</loc>
     <lastmod>2026-03-18T11:00:00-07:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/philosophy/</loc>
-    <lastmod>2026-03-18T11:00:00-07:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2026-03-18T11:00:00-07:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/linux/</loc>

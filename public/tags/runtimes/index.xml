@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Home on Bedgirb</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content in Home on Bedgirb</description>
+    <title>Runtimes on Bedgirb</title>
+    <link>http://localhost:1313/tags/runtimes/</link>
+    <description>Recent content in Runtimes on Bedgirb</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 07 May 2026 11:00:00 -0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/runtimes/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Idea Behind Async Runtimes, Part 2: Understanding Future in Rust</title>
+      <title>Idea Behind Async Runtimes, Part 2: Futures in rust</title>
       <link>http://localhost:1313/notes/futures-in-rust/</link>
       <pubDate>Thu, 07 May 2026 11:00:00 -0700</pubDate>
       <guid>http://localhost:1313/notes/futures-in-rust/</guid>
@@ -21,20 +21,6 @@
       <pubDate>Tue, 05 May 2026 11:00:00 -0700</pubDate>
       <guid>http://localhost:1313/notes/async-await-in-a-nutshell/</guid>
       <description>&lt;p&gt;Async runtimes were first introduced to me by my very old friend, JavaScript. Promise resolution was one of the most interesting topics JavaScript has to offer, not to mention implicit type coercion. In this note, I&amp;rsquo;ll cover the topic from callbacks, promises and asyc/await and try to make sense of why it existed.&lt;/p&gt;&#xA;&lt;h2 id=&#34;setting-up-the-problem&#34;&gt;Setting up the problem&lt;/h2&gt;&#xA;&lt;p&gt;To understand this, let&amp;rsquo;s build something concrete: an input that reads a file and displays its text content on screen but &lt;strong&gt;only if the file size is under 2KB&lt;/strong&gt;. Try it yourself, or follow the rundown below. It&amp;rsquo;s pretty basic.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>How to look at life?</title>
-      <link>http://localhost:1313/notes/how-to-look-at-life/</link>
-      <pubDate>Wed, 18 Mar 2026 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/notes/how-to-look-at-life/</guid>
-      <description>&lt;p&gt;We&amp;rsquo;ll I am no guru to tell anyone, how one should live a life. But, I am here to yap to test how well this markdown is looking on my markup page. On average we get &lt;code&gt;70 summers&lt;/code&gt; to live a life, but this is a pessimistic way of thinking. Instead think we have &lt;strong&gt;70 summers&lt;/strong&gt;, &lt;em&gt;70 winters, 70 autumns &amp;amp; 70 springs&lt;/em&gt; to live. But, no this ain&amp;rsquo;t it. Time flows so fast, you wouldn&amp;rsquo;t even realize you are becoming &lt;strong&gt;bald&lt;/strong&gt; day by day. Every now and then when i think about time, I realize there are less time left for my parents as well.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Linux cron jobs give you the power</title>
-      <link>http://localhost:1313/notes/basic-linux-cron-job/</link>
-      <pubDate>Fri, 09 Jun 2023 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/notes/basic-linux-cron-job/</guid>
-      <description>&lt;p&gt;As an Asian, I&amp;rsquo;m familiar with my parents always keeping a close eye on me, checking if I&amp;rsquo;m studying, gaming, or chatting. It&amp;rsquo;s like they have a background process running, giving those bombastic side eye 👀 glances. Similarly, Linux&amp;rsquo;s cron job operates silently in the background, automating tasks. I found this parallel intriguing: both involve monitoring and control. There is a cron daemon already inside Linux that helps you execute commands or scripts at predefined time intervals. We can automate tasks like&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Idea Behind Async Runtimes, Part 2: Understanding Future in Rust | Bedgirb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+      <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+
+
+</head>
+<body>
+  <header>
+    <header class="masthead">
+  <div class="margin-rule"></div>
+
+  <div class="masthead-inner">
+    <a class="site-name" href="/">Bedgirb</a>
+
+    <nav aria-label="Primary">
+      <ul>
+        
+        <li>
+          <a href="/"
+            class="">
+            Home
+          </a>
+        </li>
+        
+        <li>
+          <a href="/notes/"
+            class="active">
+            Notes
+          </a>
+        </li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  </header>
+  <main>
+    
+
+
+<article class="page">
+  <header>
+    <div class="header-container">
+    <h1>Idea Behind Async Runtimes, Part 2: Understanding Future in Rust</h1>
+    <div class="header-blocks">
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+    </div>
+    </div>
+
+    
+    
+    <div class="post-meta">
+      Published on May 07, 2026
+      
+        | Tags: <a href="/tags/rust">rust</a>, <a href="/tags/runtimes">runtimes</a>
+      
+    </div>
+    
+  </header>
+  <div class="article-content">
+    <p>One of the major sources of confusion when doing async work is the difference between concurrency and parallelism. They look similar on the surface, but they&rsquo;re actually distinct.</p>
+<p><strong>Parallelism</strong> is when separate tasks run truly independently, at the same time, unaffected by each other, like two people each working on their own task simultaneously. This needs multiple CPU cores to actually happen.</p>
+<p><strong>Concurrency</strong>, on the other hand, is about managing multiple tasks so they can all make progress, even on a single core. This is done through context switching: the CPU rapidly hops between tasks, giving priority to bits of each, so fast that it creates the illusion they&rsquo;re happening at the same time, even though at any given instant only one is actually executing.</p>
+<blockquote>
+<p>Concurrency is about managing multiple tasks so they can make progress. On a single core machine, this is done by rapidly switching between tasks (context switching) to create the illusion that they are running at the same time.</p>
+</blockquote>
+<p>The OS gives us concurrency through threads. But we can also achieve something more fine grained, even within a single thread, and that&rsquo;s where async runtimes come in.</p>
+<p>So why bother with async runtimes if the OS already gives us concurrency via threads?</p>
+<p>Because OS threads are expensive. Spawning and managing threads has real overhead, and the OS doesn&rsquo;t understand your application&rsquo;s internal logic, it just sees a chunk of program to execute. You can&rsquo;t tell it &ldquo;pause exactly here, when it makes sense for my program.&rdquo; An async runtime, by contrast, lets you define pause points (<code>await</code>) inside your own code, so it can make smarter, cheaper scheduling decisions than the OS can from the outside.</p>
+<p><strong>Tokio</strong> is one of the most dominant async runtimes in Rust. It guarantees concurrency, and parallelism becomes a bonus on top if you have multiple cores available.</p>
+<p>One more nuance worth keeping in mind: tasks aren&rsquo;t always cleanly concurrent or parallel. Sometimes one task depends on the result of another, making that part of the work serial no matter what. Concurrency and parallelism can also intersect: if you suddenly need to finish one task to unblock another, you can lose both your concurrency and your parallelism in that moment, since all effort funnels into that one blocking task.</p>
+<h2 id="setting-the-scene-a-one-chef-cafe">Setting the scene: a one chef cafe</h2>
+<p>I&rsquo;ll explain more technical details about <code>Future</code>, <code>Waker</code>, and <code>Executor</code> soon, but first let&rsquo;s build a chef for our newly opened cafe. We only have one chef (we&rsquo;re not rich enough for more just yet). The chef&rsquo;s job is to cook one order at a time and then wait for the next one. <code>tx</code> is what we use to send an order, represented as how long it takes to cook. If there&rsquo;s no order, the chef simply waits. Sending <code>0</code> means we&rsquo;re closing the cafe for the day, and the chef goes home.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Chef</span>();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Chef {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// Accepts a receiver of time in milliseconds.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// This tells us how long a given order usually takes to prepare.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// The chef holds that duration, then moves on to the next order.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">wait_till_close</span>(rx: <span style="color:#a6e22e">Receiver</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u64</span><span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">JoinHandle</span><span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        std::thread::spawn(<span style="color:#66d9ef">move</span> <span style="color:#f92672">||</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">loop</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">match</span> rx.recv() {
+</span></span><span style="display:flex;"><span>                    Ok(value) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span> value <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                        std::thread::sleep(std::time::Duration::from_millis(value));
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;done cooking!&#34;</span>);
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    Err(_) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (tx, rx): (Sender<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u64</span><span style="color:#f92672">&gt;</span>, Receiver<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">u64</span><span style="color:#f92672">&gt;</span>) <span style="color:#f92672">=</span> mpsc::channel();
+</span></span><span style="display:flex;"><span>    tx.send(<span style="color:#ae81ff">2000</span>).unwrap(); <span style="color:#75715e">// an order that takes 2000ms to prepare
+</span></span></span><span style="display:flex;"><span>    tx.send(<span style="color:#ae81ff">1000</span>).unwrap();
+</span></span><span style="display:flex;"><span>    tx.send(<span style="color:#ae81ff">0</span>).unwrap(); <span style="color:#75715e">// go home, chef, we&#39;re done for the day
+</span></span></span><span style="display:flex;"><span>    Chef::wait_till_close(rx).join().unwrap(); <span style="color:#75715e">// waits until the cafe closes
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here, <code>mpsc</code> stands for multiple producer, single consumer. We use it to create a pipe that receives a duration and pauses that thread accordingly. Right now we&rsquo;re just printing when an order is done, but we need a real way to signal completion. So let&rsquo;s build out some structs.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">OrderRequest</span> {
+</span></span><span style="display:flex;"><span>    menu: <span style="color:#a6e22e">Menu</span>,
+</span></span><span style="display:flex;"><span>    is_done: <span style="color:#66d9ef">bool</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Instead of sending a plain millisecond value through the channel, we&rsquo;ll send this struct, which carries both the cook time (via the menu item) and an <code>is_done</code> flag telling us whether the request has completed.</p>
+<p>So what type should <code>tx</code> actually carry? You&rsquo;d think <code>OrderRequest</code>, and that&rsquo;s on the right track, but <code>OrderRequest</code> needs to be accessed from two places at once: the timer thread and our main thread. Can two threads own the same piece of data directly? No. That&rsquo;s where <code>Arc</code> comes in: an atomic reference counter, the thread safe version of <code>Rc</code>. It&rsquo;s safe to clone and share across threads, and the underlying data is only dropped once the reference count hits zero.</p>
+<p>There&rsquo;s one more wrinkle: we also need to mutate that shared data once the food is ready (once the timer finishes). For that we need interior mutability, and the safest tool for the job here is a <code>Mutex</code>. <code>RwLock</code> is another option, but for this example we&rsquo;ll stick with <code>Mutex</code>.</p>
+<p>So technically, our <code>tx</code> and <code>rx</code> will carry: <code>Arc&lt;Mutex&lt;OrderRequest&gt;&gt;</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// just pseudocode to illustrate the idea
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> std::sync::mpsc::channel();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> req <span style="color:#f92672">=</span> OrderRequest::new(Menu::Momo);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tx.clone() is used wherever we need another sender
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// the request is moved into the order
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> order <span style="color:#f92672">=</span> Order::new(req, tx.clone());
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Order implements Future, so it IS a future
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// now we drive the order to completion
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// this tiny executor&#39;s job is similar to what a thread does
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// you can think of it as roughly equivalent to order.await
+</span></span></span><span style="display:flex;"><span>    join(order);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    drop(tx);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    start_timer_thread(rx); <span style="color:#75715e">// tx sends the order, rx receives it and updates is_done
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>So to sum up, the main thing we&rsquo;re doing here is creating an order and wiring up a channel that lets the timer thread and the main thread communicate.</p>
+<p>So what&rsquo;s the job of that &ldquo;join,&rdquo; the tiny executor we keep mentioning?</p>
+<p>Its only job is to poll: to repeatedly check whether the result we want is ready yet.</p>
+<p>The <code>Future</code> trait&rsquo;s <code>poll</code> method returns either <code>Poll::Ready(value)</code> or <code>Poll::Pending</code>, similar to how promises work in JavaScript. &ldquo;Polling&rdquo; technically just means checking whether the data is available yet. But if we did that in a tight loop, constantly asking &ldquo;is it ready yet? is it ready yet?&rdquo;, we&rsquo;d just be burning CPU cycles, which defeats the purpose of async. That&rsquo;s where the waker comes in.</p>
+<h2 id="the-future-trait">The Future trait</h2>
+<p>A type implementing <code>Future</code> needs to satisfy roughly this shape:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Future <span style="color:#66d9ef">for</span> Order {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">bool</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// required
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span>&#39;_<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>Pin</code> here means the data is pinned to a fixed memory location. <code>cx</code> carries the most important piece of async in Rust: the waker. As the name suggests, the waker tells the executor when it should poll again, instead of the executor having to poll in a tight, wasteful loop. It gives the executor a clear signal for when polling is actually worthwhile.</p>
+<p>For our problem, we need to be woken up when the timer finishes. So <code>OrderRequest</code> needs one more field: the waker.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[derive(Clone)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">OrderRequest</span> {
+</span></span><span style="display:flex;"><span>    menu: <span style="color:#a6e22e">Menu</span>,
+</span></span><span style="display:flex;"><span>    is_done: <span style="color:#66d9ef">bool</span>,
+</span></span><span style="display:flex;"><span>    waker: Option<span style="color:#f92672">&lt;</span>Waker<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The waker starts as <code>None</code>, because at the very beginning we don&rsquo;t have one yet. The executor always has to call <code>poll</code> at least once to obtain and store the waker. On that first call, the executor polls unconditionally. From then on, the waker is what tells the executor when it&rsquo;s actually worth polling again. That said, spurious wakeups can happen, so we can&rsquo;t assume <code>poll</code> is called exactly once per real state change.</p>
+<p>Our <code>Order</code> type is what implements <code>Future</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Order</span> {
+</span></span><span style="display:flex;"><span>    request: <span style="color:#a6e22e">Arc</span><span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>OrderRequest<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>    waiter: <span style="color:#a6e22e">Sender</span><span style="color:#f92672">&lt;</span>Arc<span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>OrderRequest<span style="color:#f92672">&gt;&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>I mentioned earlier why we need <code>Arc</code> and <code>Mutex</code>: <code>request</code> is the same data being sent over <code>tx</code>, and <code>Order</code> owns it too. When we implement <code>Future</code> for <code>Order</code>, <code>poll</code> needs to check whether the request is already done. If not, it stores the current waker on the request so that whichever thread finishes the work can call <code>wake()</code> and tell the executor &ldquo;poll me again.&rdquo;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Order {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tx should be a sender that this Order can use to hand off its Arc-wrapped request
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(request: <span style="color:#a6e22e">OrderRequest</span>, tx: <span style="color:#a6e22e">Sender</span><span style="color:#f92672">&lt;</span>Arc<span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>OrderRequest<span style="color:#f92672">&gt;&gt;&gt;</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> request <span style="color:#f92672">=</span> Arc::new(Mutex::new(request));
+</span></span><span style="display:flex;"><span>        Self {
+</span></span><span style="display:flex;"><span>            request,
+</span></span><span style="display:flex;"><span>            waiter: <span style="color:#a6e22e">tx</span>,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Future <span style="color:#66d9ef">for</span> Order {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">bool</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span>&#39;_<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> request <span style="color:#f92672">=</span> self.request.lock().unwrap();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>request.is_done {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// cloning a waker is cheap, similar in spirit to cloning an Arc
+</span></span></span><span style="display:flex;"><span>            request.waker <span style="color:#f92672">=</span> Some(cx.waker().clone());
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> send <span style="color:#f92672">=</span> self.waiter.send(Arc::clone(<span style="color:#f92672">&amp;</span>self.request));
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> send.is_err() {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Poll::Ready(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Poll::Ready(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        Poll::Pending
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Walking through this: we lock the request, check whether it&rsquo;s done, and return <code>Poll::Ready(true)</code> if so. Otherwise we store the waker from the context (this is what the first poll looks like) and send the request off to the timer thread.</p>
+<p>There&rsquo;s still a bug here, though. If the executor polls multiple times before the order is done, we end up resending the same data down the channel every time, which repeats work we don&rsquo;t need to repeat. Not great. The fix is a small one: add a <code>sent</code> flag so we only send the request once.</p>
+<p>If you&rsquo;re curious about the waker itself, think of it as something like an <code>Arc</code>: cheap to clone, and each clone is just a reference back to the same underlying handle.</p>
+<h2 id="building-the-executor">Building the executor</h2>
+<p>We finally have a working <code>Future</code>, but we still need something to actually poll it: an executor. We&rsquo;ll call ours <code>prepare_food()</code>, in keeping with the cafe theme.</p>
+<p>What should an executor actually do? Poll once, then wait for a wakeup before polling again? Pretty much, yes. To build the <code>Context</code> that <code>poll</code> needs, we implement the <code>Wake</code> trait on a small struct, say <code>ThreadWaker(std::thread::Thread)</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Wake <span style="color:#66d9ef">for</span> ThreadWaker {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">wake</span>(self: <span style="color:#a6e22e">Arc</span><span style="color:#f92672">&lt;</span>Self<span style="color:#f92672">&gt;</span>) {
+</span></span><span style="display:flex;"><span>        self.<span style="color:#ae81ff">0.</span>unpark();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>park()</code> blocks the current thread. <code>unpark()</code> releases it, or wakes it back up if it&rsquo;s already parked.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">prepare_food</span>(<span style="color:#66d9ef">mut</span> order: <span style="color:#a6e22e">Order</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Pin is needed here because poll requires a Pin&lt;&amp;mut Self&gt;,
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// even though our Order isn&#39;t self-referential and doesn&#39;t strictly need it.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> pinned_future <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { Pin::new_unchecked(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> order) };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// our own waker, tied to the current (main) thread
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> thread_waker <span style="color:#f92672">=</span> Arc::new(ThreadWaker(std::thread::current()));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> waker: <span style="color:#a6e22e">Waker</span> <span style="color:#f92672">=</span> thread_waker.into();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> cx <span style="color:#f92672">=</span> Context::from_waker(<span style="color:#f92672">&amp;</span>waker);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">loop</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// poll the order; when the timer thread calls wake(),
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// this thread gets unparked and we poll again
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> pinned_future.as_mut().poll(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> cx) {
+</span></span><span style="display:flex;"><span>            Poll::Ready(result) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> result,
+</span></span><span style="display:flex;"><span>            Poll::Pending <span style="color:#f92672">=&gt;</span> std::thread::park(), <span style="color:#75715e">// the first poll is always Pending, so we park here
+</span></span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> std::sync::mpsc::channel();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> chef_handle <span style="color:#f92672">=</span> Chef::wait_till_close(rx);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> request <span style="color:#f92672">=</span> OrderRequest::new(Menu::Momo);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> order <span style="color:#f92672">=</span> Order::new(request, tx.clone());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;See, I am not blocked!&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> done <span style="color:#f92672">=</span> prepare_food(order);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;order finished: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, done);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    drop(tx);
+</span></span><span style="display:flex;"><span>    chef_handle.join().unwrap();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And that&rsquo;s the core mechanism, waker, executor, and poll, that Rust&rsquo;s async model is built on. This is still a small toy example that only scratches the surface of threads and async runtimes, but it captures the essential loop.</p>
+<p><img src="diagram.png" alt="Diagram"></p>
+<p>Here&rsquo;s the full, corrected code in one piece:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::{
+</span></span><span style="display:flex;"><span>    pin::Pin,
+</span></span><span style="display:flex;"><span>    sync::{
+</span></span><span style="display:flex;"><span>        Arc, Mutex,
+</span></span><span style="display:flex;"><span>        mpsc::{Receiver, Sender},
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    task::{Context, Poll, Wake, Waker},
+</span></span><span style="display:flex;"><span>    thread::JoinHandle,
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ThreadWaker</span>(std::thread::Thread);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Wake <span style="color:#66d9ef">for</span> ThreadWaker {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">wake</span>(self: <span style="color:#a6e22e">Arc</span><span style="color:#f92672">&lt;</span>Self<span style="color:#f92672">&gt;</span>) {
+</span></span><span style="display:flex;"><span>        self.<span style="color:#ae81ff">0.</span>unpark();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// time in milliseconds
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#[repr(u64)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[derive(Clone, Copy)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Menu</span> {
+</span></span><span style="display:flex;"><span>    Momo <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>,
+</span></span><span style="display:flex;"><span>    Susi <span style="color:#f92672">=</span> <span style="color:#ae81ff">3000</span>,
+</span></span><span style="display:flex;"><span>    ChickenRoulade <span style="color:#f92672">=</span> <span style="color:#ae81ff">4000</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Chef</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Chef {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">wait_till_close</span>(rx: <span style="color:#a6e22e">Receiver</span><span style="color:#f92672">&lt;</span>Arc<span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>OrderRequest<span style="color:#f92672">&gt;&gt;&gt;</span>) -&gt; <span style="color:#a6e22e">JoinHandle</span><span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        std::thread::spawn(<span style="color:#66d9ef">move</span> <span style="color:#f92672">||</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">loop</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">match</span> rx.recv() {
+</span></span><span style="display:flex;"><span>                    Ok(value) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> request <span style="color:#f92672">=</span> value.lock().unwrap();
+</span></span><span style="display:flex;"><span>                        std::thread::sleep(std::time::Duration::from_millis(request.menu <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">u64</span>));
+</span></span><span style="display:flex;"><span>                        request.is_done <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(waker) <span style="color:#f92672">=</span> request.waker.take() {
+</span></span><span style="display:flex;"><span>                            waker.wake();
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    Err(_) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Order</span> {
+</span></span><span style="display:flex;"><span>    request: <span style="color:#a6e22e">Arc</span><span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>OrderRequest<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>    waiter: <span style="color:#a6e22e">Sender</span><span style="color:#f92672">&lt;</span>Arc<span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>OrderRequest<span style="color:#f92672">&gt;&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#[derive(Clone)]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">OrderRequest</span> {
+</span></span><span style="display:flex;"><span>    menu: <span style="color:#a6e22e">Menu</span>,
+</span></span><span style="display:flex;"><span>    is_done: <span style="color:#66d9ef">bool</span>,
+</span></span><span style="display:flex;"><span>    is_sent: <span style="color:#66d9ef">bool</span>,
+</span></span><span style="display:flex;"><span>    waker: Option<span style="color:#f92672">&lt;</span>Waker<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> OrderRequest {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(menu: <span style="color:#a6e22e">Menu</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+</span></span><span style="display:flex;"><span>        Self {
+</span></span><span style="display:flex;"><span>            menu,
+</span></span><span style="display:flex;"><span>            is_done: <span style="color:#a6e22e">false</span>,
+</span></span><span style="display:flex;"><span>            is_sent: <span style="color:#a6e22e">false</span>,
+</span></span><span style="display:flex;"><span>            waker: None,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Order {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(request: <span style="color:#a6e22e">OrderRequest</span>, tx: <span style="color:#a6e22e">Sender</span><span style="color:#f92672">&lt;</span>Arc<span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>OrderRequest<span style="color:#f92672">&gt;&gt;&gt;</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> request <span style="color:#f92672">=</span> Arc::new(Mutex::new(request));
+</span></span><span style="display:flex;"><span>        Self {
+</span></span><span style="display:flex;"><span>            request,
+</span></span><span style="display:flex;"><span>            waiter: <span style="color:#a6e22e">tx</span>,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> Future <span style="color:#66d9ef">for</span> Order {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Output</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">bool</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span>&#39;_<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> request <span style="color:#f92672">=</span> self.request.lock().unwrap();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> request.is_done {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Poll::Ready(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        request.waker <span style="color:#f92672">=</span> Some(cx.waker().clone());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>request.is_sent {
+</span></span><span style="display:flex;"><span>            request.is_sent <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> self.waiter.send(Arc::clone(<span style="color:#f92672">&amp;</span>self.request)).is_err() {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Poll::Ready(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        Poll::Pending
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">prepare_food</span>(<span style="color:#66d9ef">mut</span> order: <span style="color:#a6e22e">Order</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> pinned_future <span style="color:#f92672">=</span> <span style="color:#66d9ef">unsafe</span> { Pin::new_unchecked(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> order) };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> thread_waker <span style="color:#f92672">=</span> Arc::new(ThreadWaker(std::thread::current()));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> waker: <span style="color:#a6e22e">Waker</span> <span style="color:#f92672">=</span> thread_waker.into();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> cx <span style="color:#f92672">=</span> Context::from_waker(<span style="color:#f92672">&amp;</span>waker);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">loop</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> pinned_future.as_mut().poll(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> cx) {
+</span></span><span style="display:flex;"><span>            Poll::Ready(result) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> result,
+</span></span><span style="display:flex;"><span>            Poll::Pending <span style="color:#f92672">=&gt;</span> std::thread::park(),
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> std::sync::mpsc::channel();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> chef_handle <span style="color:#f92672">=</span> Chef::wait_till_close(rx);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> request <span style="color:#f92672">=</span> OrderRequest::new(Menu::Momo);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> order <span style="color:#f92672">=</span> Order::new(request, tx.clone());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;See, I am not blocked!&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> done <span style="color:#f92672">=</span> prepare_food(order);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;order finished: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, done);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    drop(tx);
+</span></span><span style="display:flex;"><span>    chef_handle.join().unwrap();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="so-where-does-await-actually-happen">So where does <code>.await</code> actually happen?</h2>
+<p>You might notice there&rsquo;s no <code>.await</code> keyword anywhere in the code above. That&rsquo;s because <code>Order</code> is never used inside an <code>async fn</code>, we drove it by hand with <code>prepare_food()</code> instead. But <code>prepare_food()</code> is, in effect, doing exactly what <code>.await</code> does for you:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">loop</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">match</span> pinned_future.as_mut().poll(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> cx) {
+</span></span><span style="display:flex;"><span>        Poll::Ready(result) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> result,
+</span></span><span style="display:flex;"><span>        Poll::Pending <span style="color:#f92672">=&gt;</span> std::thread::park(),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Poll it, and if it&rsquo;s not ready, suspend and wait to be woken, then poll again. That loop is the whole idea behind <code>.await</code>.</p>
+<h3 id="where-tokio-comes-in">Where Tokio comes in</h3>
+<p>Tokio replaces our hand rolled <code>prepare_food()</code> executor with a real one. When you write:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[tokio::main]</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> done <span style="color:#f92672">=</span> my_async_fn().<span style="color:#66d9ef">await</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Tokio wraps <code>my_async_fn()</code>&rsquo;s compiler generated state machine as a <strong>task</strong>, puts it on a work queue, and a pool of worker threads pulls tasks off that queue and calls <code>poll</code> on them, exactly like our loop did, just across many tasks and many threads instead of one order and one parked thread.</p>
+<p>A few differences from our toy version worth calling out:</p>
+<ul>
+<li>When a task&rsquo;s <code>poll</code> returns <code>Pending</code>, Tokio doesn&rsquo;t park the whole worker thread the way we did. It simply drops that task for now and moves on to poll a <em>different</em> ready task, so one thread can juggle thousands of pending futures.</li>
+<li>The waker in Tokio&rsquo;s world doesn&rsquo;t call <code>thread::unpark()</code> like our <code>ThreadWaker</code> did. It re-enqueues the task onto Tokio&rsquo;s internal ready queue, so some worker thread picks it up and polls it again the next time it&rsquo;s free.</li>
+<li>I/O futures (like <code>TcpStream::read().await</code>) register their waker with the OS&rsquo;s event notification system (epoll, kqueue, or IOCP depending on platform) instead of a timer thread. When the OS reports that a socket is readable, Tokio&rsquo;s reactor calls <code>wake()</code>, which re-queues the task.</li>
+</ul>
+<p>The <code>poll</code> and <code>Waker</code> mechanics are identical either way. Tokio just does it at scale, with a real scheduler juggling many tasks instead of one thread parking on one future.</p>
+<h2 id="whats-next">What&rsquo;s next</h2>
+<p>In Part 3, we&rsquo;ll grow this toy executor into something closer to a real one. That means handling more than one order at a time (spawning multiple futures), building a proper task queue instead of parking a single thread, and taking a deeper look at how combinators like <code>join</code> and <code>select</code> are built on top of the same poll and waker mechanics we used here along with understanding <code>async</code> what keyword does.</p>
+
+  </div>
+</article>
+
+
+    <section class="recent-posts">
+      <h2>My notes</h2>
+      <ul class="post-list">
+        
+        <li class="post-item">
+          <span class="post-date">May 07, 2026</span>
+          <span class="post-title">
+            <a href="/notes/futures-in-rust/">Idea Behind Async Runtimes, Part 2: Understanding Future in Rust</a>
+          </span>
+        </li>
+        
+        <li class="post-item">
+          <span class="post-date">May 05, 2026</span>
+          <span class="post-title">
+            <a href="/notes/async-await-in-a-nutshell/">Idea Behind Async Runtimes, Part 1: How JavaScript Does It</a>
+          </span>
+        </li>
+        
+        <li class="post-item">
+          <span class="post-date">Mar 18, 2026</span>
+          <span class="post-title">
+            <a href="/notes/how-to-look-at-life/">How to look at life?</a>
+          </span>
+        </li>
+        
+        <li class="post-item">
+          <span class="post-date">Jun 09, 2023</span>
+          <span class="post-title">
+            <a href="/notes/basic-linux-cron-job/">Linux cron jobs give you the power</a>
+          </span>
+        </li>
+        
+      </ul>
+    </section>
+
+    <div class="pattern">
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+    </div>
+  </main>
+  <footer>
+
+    <p>Copyright @bedgirb 2026 . All rights reserved.</p>
+
+  </footer>
+</body>
+</html>

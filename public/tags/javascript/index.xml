@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Javascript on Bedgirb</title>
+    <link>http://localhost:1313/tags/javascript/</link>
+    <description>Recent content in Javascript on Bedgirb</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 May 2026 11:00:00 -0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Idea Behind Async Runtimes, Part 1: How JavaScript Does It</title>
+      <link>http://localhost:1313/notes/async-await-in-a-nutshell/</link>
+      <pubDate>Tue, 05 May 2026 11:00:00 -0700</pubDate>
+      <guid>http://localhost:1313/notes/async-await-in-a-nutshell/</guid>
+      <description>&lt;p&gt;Async runtimes were first introduced to me by my very old friend, JavaScript. Promise resolution was one of the most interesting topics JavaScript has to offer, not to mention implicit type coercion. In this note, I&amp;rsquo;ll cover the topic from callbacks, promises and asyc/await and try to make sense of why it existed.&lt;/p&gt;&#xA;&lt;h2 id=&#34;setting-up-the-problem&#34;&gt;Setting up the problem&lt;/h2&gt;&#xA;&lt;p&gt;To understand this, let&amp;rsquo;s build something concrete: an input that reads a file and displays its text content on screen but &lt;strong&gt;only if the file size is under 2KB&lt;/strong&gt;. Try it yourself, or follow the rundown below. It&amp;rsquo;s pretty basic.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

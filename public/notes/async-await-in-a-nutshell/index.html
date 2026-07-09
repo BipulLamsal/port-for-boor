@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Idea Behind Async Runtimes, Part 1: How JavaScript Does It | Bedgirb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+      <link rel="stylesheet" href="/css/main.css">
+
+
+      <script src="/js/main.js"></script>
+
+
+
+</head>
+<body>
+  <header>
+    <header class="masthead">
+  <div class="margin-rule"></div>
+
+  <div class="masthead-inner">
+    <a class="site-name" href="/">Bedgirb</a>
+
+    <nav aria-label="Primary">
+      <ul>
+        
+        <li>
+          <a href="/"
+            class="">
+            Home
+          </a>
+        </li>
+        
+        <li>
+          <a href="/notes/"
+            class="active">
+            Notes
+          </a>
+        </li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  </header>
+  <main>
+    
+
+
+<article class="page">
+  <header>
+    <div class="header-container">
+    <h1>Idea Behind Async Runtimes, Part 1: How JavaScript Does It</h1>
+    <div class="header-blocks">
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+    </div>
+    </div>
+
+    
+    
+    <div class="post-meta">
+      Published on May 05, 2026
+      
+        | Tags: <a href="/tags/javascript">javascript</a>, <a href="/tags/runtimes">runtimes</a>, <a href="/tags/event-loop">event-loop</a>
+      
+    </div>
+    
+  </header>
+  <div class="article-content">
+    <p>Async runtimes were first introduced to me by my very old friend, JavaScript. Promise resolution was one of the most interesting topics JavaScript has to offer, not to mention implicit type coercion. In this note, I&rsquo;ll cover the topic from callbacks, promises and asyc/await and try to make sense of why it existed.</p>
+<h2 id="setting-up-the-problem">Setting up the problem</h2>
+<p>To understand this, let&rsquo;s build something concrete: an input that reads a file and displays its text content on screen but <strong>only if the file size is under 2KB</strong>. Try it yourself, or follow the rundown below. It&rsquo;s pretty basic.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">file</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;file&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// this itself is driven by the event loop of the browser
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;input&#39;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">files</span>[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">target</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p>Okay, we&rsquo;ve got the file we want. Now we need to read it. WebKit already gives us the <code>FileReader</code> object for this, and it too has event listeners and async behavior. Let me show you.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">read_file</span>(<span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// we create a reader
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">reader</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">FileReader</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// and we read it
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">readAsText</span>(<span style="color:#a6e22e">file</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// now where&#39;s the output?
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// here it comes again — the event handler.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// this function only gets called once readAsText completes!
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;load&#39;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;p&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">result</span>;
+</span></span><span style="display:flex;"><span>        document.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">item</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Easy peasy. Drop this <code>read_file</code> inside the file input&rsquo;s event handler and it works perfectly, it reads the content and appends a new child to the DOM. Still, one piece of the puzzle is missing: checking the file size and only displaying the content if it&rsquo;s under the threshold.</p>
+<p>How do we do that? Simple use <code>file.size</code>. It returns the file&rsquo;s size in bytes, but make sure the check happens <strong>before</strong> we start reading the file, otherwise the guard is useless. Alright gng time to write your own logic!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">file</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;file&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// this itself is driven by the event loop of the browser
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;input&#39;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">files</span>[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">target</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">read_file</span>(<span style="color:#a6e22e">target</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;I will appear second!&#34;</span>);
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">read_file</span>(<span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// even the reader here is an asynchronous function that accepts callbacks for later
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">reader</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">FileReader</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;load&#39;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">item</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#34;p&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">item</span>.<span style="color:#a6e22e">textContent</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">result</span>;
+</span></span><span style="display:flex;"><span>        document.<span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">appendChild</span>(<span style="color:#a6e22e">item</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;I will appear fourth!&#34;</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;progress&#39;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;I will appear third!&#34;</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">success</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">readAsText</span>(<span style="color:#a6e22e">file</span>); <span style="color:#75715e">// this consumes the bytes
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;I will appear first!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">failure</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;NOT DONE!&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">check_file_size</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">success</span>, <span style="color:#a6e22e">failure</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">check_file_size</span>(<span style="color:#a6e22e">file</span>, <span style="color:#a6e22e">success_callback</span>, <span style="color:#a6e22e">failure_callback</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">failure_callback</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">success_callback</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now, trace the flow of the program:</p>
+<ol>
+<li>The input event callback is registered first.</li>
+<li>Once it receives input, it triggers and jumps into the <code>read_file</code> function.</li>
+<li>We hook the <code>load</code> and <code>progress</code> events for the file.</li>
+<li>These are only <em>registered</em> — nothing executes yet.</li>
+<li>Execution moves to <code>check_file_size</code>, passing <code>success_callback</code> and <code>failure_callback</code>.</li>
+<li>If the file is under the threshold, we call <code>success_callback</code>.</li>
+<li><code>read_file</code> finishes once <code>check_file_size</code> completes.</li>
+<li>That&rsquo;s why the call that was holding <code>read_file(target)</code> inside the input handler releases control.</li>
+<li>The line <code>console.log(&quot;I will appear second!&quot;)</code> prints.</li>
+<li>The listeners we registered earlier don&rsquo;t affect the synchronous nature of the program — they&rsquo;re just waiting.</li>
+<li>Eventually, the <code>progress</code> event fires and its callback runs.</li>
+<li>Finally, the file finishes loading and the <code>load</code> event&rsquo;s callback runs.</li>
+</ol>
+<h2 id="from-callback-hell-to-promises">From callback hell to promises</h2>
+<p>Now, look we used callback functions here. One of the biggest advantages of promises is resolving exactly this kind of pattern.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s_c</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">settings</span>, <span style="color:#a6e22e">another_cb</span>) =&gt; <span style="color:#a6e22e">another_cb</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">f_c</span> <span style="color:#f92672">=</span> () =&gt; {};
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">load_extension</span>(<span style="color:#a6e22e">settings</span>, <span style="color:#a6e22e">s_c</span>, <span style="color:#a6e22e">f_c</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">load_extension</span>(<span style="color:#a6e22e">settings</span>, <span style="color:#a6e22e">success_callback</span>, <span style="color:#a6e22e">failure_callback</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">another_cb</span> <span style="color:#f92672">=</span> () =&gt; {};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s_c</span> <span style="color:#f92672">=</span> () =&gt; <span style="color:#a6e22e">success_callback</span>(<span style="color:#a6e22e">settings</span>, <span style="color:#a6e22e">another_cb</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">check_available_plugins</span>(<span style="color:#a6e22e">settings</span>, <span style="color:#a6e22e">s_c</span>, <span style="color:#a6e22e">failure_callback</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">check_available_plugins</span>(<span style="color:#a6e22e">settings</span>, <span style="color:#a6e22e">success_callback</span>, <span style="color:#a6e22e">failure_callback</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">success_callback</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This can get very complicated very fast, hence the name <strong>pyramid of doom</strong>, or <strong>callback hell</strong>. And here comes the Promise to the rescue.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// syntax of a promise
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">promise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do some asynchronous work
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">done</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">value</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">value</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">promise</span>.<span style="color:#a6e22e">then</span>(
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">result</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Handle success
+</span></span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">error</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Handle error
+</span></span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>Now here&rsquo;s our previous code, reduced to use a promise instead of <code>success_callback</code>/<code>failure_callback</code>, much simpler and more readable.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// inside read_file()
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">check_file_size</span>(<span style="color:#a6e22e">file</span>).<span style="color:#a6e22e">then</span>((<span style="color:#a6e22e">value</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">value</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">readAsText</span>(<span style="color:#a6e22e">file</span>); <span style="color:#75715e">// this consumes the bytes
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// if this itself returned a promise, we could chain another .then() here
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;I will appear first!&#34;</span>);
+</span></span><span style="display:flex;"><span>}).<span style="color:#66d9ef">catch</span>((<span style="color:#a6e22e">value</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">value</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// --- snip ---
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">check_file_size</span>(<span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Promise((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">reject</span>(<span style="color:#e6db74">&#34;NAH!&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">resolve</span>(<span style="color:#e6db74">&#34;YAY!&#34;</span>);
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now <code>check_file_size</code> is no longer a sync function, it&rsquo;s asynchronous. Run the program again and you&rsquo;ll notice that everything <em>after</em> the <code>check_file_size(...).then(...)</code> call logs first, because nothing inside <code>read_file</code> itself is holding up the thread anymore.</p>
+<p>Phew, after all that code, we&rsquo;ve finally arrived at the asynchronous nature of JavaScript. The promise we just wrote can be resolved more directly using <code>async</code> and <code>await</code>. If a function returns a promise, we can <code>await</code> it to get its future value.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// instead of a long chain of .then() and .catch(),
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// we can write something like:
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">check_file_size</span>(<span style="color:#a6e22e">file</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// execution pauses here until the promise settles
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// but what if the promise is rejected? that&#39;s why it&#39;s wrapped in try/catch —
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// catch gets the rejected value
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">check_file_size</span>(<span style="color:#a6e22e">file</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// now do whatever the success_callback used to do here
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// note: if you don&#39;t await here, you&#39;ll never know if this succeeded
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// inside this function — await is what gives you the synchronous-looking flow
+</span></span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// do cleanup
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// error handling
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And because of this, <strong>we don&rsquo;t <code>await</code> inside the <code>input</code> event listener itself</strong>  we just want <code>read_file</code> to resolve on its own, without holding up that event.</p>
+<p>Here&rsquo;s the crucial point to remember: because <code>read_file</code> is an I/O-bound operation, the browser&rsquo;s own native subsystems (networking stack, I/O stack, timers  collectively the <strong>Web APIs</strong>) handle the actual waiting. So when we <em>don&rsquo;t</em> <code>await</code> <code>read_file</code>, its work happens off the JS thread, the JS call stack empties immediately, and our event loop doesn&rsquo;t block on any other events. Once the work is done, the browser pushes a <code>load</code> event, and our JS event loop picks it up and runs the callback.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;input&#39;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">files</span>[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">target</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">read_file</span>(<span style="color:#a6e22e">target</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;I will appear first!&#34;</span>);
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h2 id="when-things-actually-block">When things actually block</h2>
+<p>Now, compare that to a <strong>CPU-bound</strong> task one that runs directly on the JS thread instead of being offloaded to a native subsystem outside the JS runtime. <em>That&rsquo;s</em> a problem, because now the single JS thread is stuck doing the calculation. The call stack never clears, the event loop can&rsquo;t process anything else, and we can&rsquo;t respond to any other event.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">count_to_quadrillion</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#66d9ef">Infinity</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// just churns the CPU, forever
+</span></span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">file</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;input&#39;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">target</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">files</span>[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">count_to_quadrillion</span>();
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p>And even if you write <code>async function count_to_quadrillion()</code>, it makes no difference, this function has <strong>zero yield points</strong>.</p>
+<blockquote>
+<p>A <strong>yield point</strong> is a moment where a function pauses and hands control back, instead of running start-to-finish in one go.</p>
+</blockquote>
+<p>There isn&rsquo;t a single line in <code>count_to_quadrillion</code> that pauses execution - no <code>await</code>, no <code>setTimeout</code>, nothing. The only way this function ever hands back control is by finishing entirely (which, with an infinite loop, never happens).</p>
+<p>Compare that to this, which <em>does</em> have a yield point:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">read_file</span>(<span style="color:#a6e22e">file</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">check_file_size</span>(<span style="color:#a6e22e">file</span>);   <span style="color:#75715e">// &lt;-- yield point is here
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">reader</span>.<span style="color:#a6e22e">readAsText</span>(<span style="color:#a6e22e">file</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When execution hits that <code>await</code>, JS effectively says: <em>&ldquo;this promise isn&rsquo;t resolved yet, let me pause right here, remember where I was, and let the event loop do other things. I&rsquo;ll come back to this exact spot once the promise resolves.&rdquo;</em></p>
+<p>One more thing worth calling out: <code>await</code> only controls <em>that particular block</em> of a function. Regardless of whether you <code>await</code> it, an async function is still triggered and run by the JS runtime the moment it&rsquo;s called <code>await</code> only decides whether the <em>caller</em> holds and waits for the result, or moves on immediately.</p>
+<h2 id="under-the-hood-the-js-runtime">Under the hood: the JS runtime</h2>
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/1*Y5zNrBWfYc7m_Fn03g9nYA.gif" alt="JS runtime"></p>
+<p>Since I&rsquo;ve mentioned the &ldquo;JS runtime&rdquo; a few times now, let&rsquo;s actually go under the hood. The JS runtime is more commonly known as <strong>the event loop</strong>, and it&rsquo;s made up of several parts:</p>
+<ul>
+<li><strong>JS Engine (V8 / SpiderMonkey)</strong> : runs your actual JS code. One thread, one call stack. This is what executes <code>count_to_quadrillion()</code>, or the synchronous parts of <code>read_file()</code>.</li>
+<li><strong>Web APIs</strong> : <code>fetch</code>, <code>FileReader</code>, <code>setTimeout</code>, DOM events. Implemented in the browser&rsquo;s native code (C++), these are what actually do the waiting, off the JS thread.</li>
+<li><strong>Task Queue</strong> (a.k.a. Callback Queue, or Macrotask Queue) : when a Web API finishes its work, its callback lands here rather than jumping straight onto the call stack.</li>
+<li><strong>Microtask Queue</strong> : where promise callbacks (<code>.then()</code>, <code>await</code> continuations) land. This queue is drained first and has higher priority than the Task Queue.</li>
+<li><strong>The Event Loop</strong> : the mechanism tying it all together. It continuously asks: <em>&ldquo;Is the call stack empty? If yes, drain the microtask queue completely, then take exactly one item from the task queue, run it, and repeat : forever.&rdquo;</em></li>
+</ul>
+<p>So the typical order of priority, once the call stack clears, is:</p>
+<p>**call stack &gt; microtask queue (fully drained) &gt; one task from the macrotask queue</p>
+<p>You can see this visualized here: <a href="http://latentflip.com/loupe/">visualization</a></p>
+<h2 id="the-natural-next-question">The natural next question</h2>
+<p>At this point you might be wondering: <em>what if I actually want <code>count_to_quadrillion</code> to run separately, without blocking the JS event loop and call stack at all?</em></p>
+<p>That&rsquo;s exactly what <strong>Web Workers</strong> are for - they give you a genuinely separate OS thread, with its own JS engine instance, so heavy computation doesn&rsquo;t block the main thread at all.</p>
+<p>That&rsquo;s a big enough topic to deserve its own post - including the deeper question of how we could build something <em>like</em> this ourselves, with our own waker, executor, channel, and so on. We&rsquo;ll get there.</p>
+<p>Hopefully, this gave you the essence of how JavaScript achieves its asynchronous nature through the event loop, the call stack, and its two queues.</p>
+<h4 id="references">References</h4>
+<ul>
+<li><a href="https://web.dev/articles/read-files">https://web.dev/articles/read-files</a></li>
+<li><a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">https://www.youtube.com/watch?v=8aGhZQkoFbQ</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+    <section class="recent-posts">
+      <h2>My notes</h2>
+      <ul class="post-list">
+        
+        <li class="post-item">
+          <span class="post-date">May 07, 2026</span>
+          <span class="post-title">
+            <a href="/notes/futures-in-rust/">Idea Behind Async Runtimes, Part 2: Understanding Future in Rust</a>
+          </span>
+        </li>
+        
+        <li class="post-item">
+          <span class="post-date">May 05, 2026</span>
+          <span class="post-title">
+            <a href="/notes/async-await-in-a-nutshell/">Idea Behind Async Runtimes, Part 1: How JavaScript Does It</a>
+          </span>
+        </li>
+        
+        <li class="post-item">
+          <span class="post-date">Mar 18, 2026</span>
+          <span class="post-title">
+            <a href="/notes/how-to-look-at-life/">How to look at life?</a>
+          </span>
+        </li>
+        
+        <li class="post-item">
+          <span class="post-date">Jun 09, 2023</span>
+          <span class="post-title">
+            <a href="/notes/basic-linux-cron-job/">Linux cron jobs give you the power</a>
+          </span>
+        </li>
+        
+      </ul>
+    </section>
+
+    <div class="pattern">
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 3;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+            <div class="wave-block pattern-0" style="--i: 1;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 5;"></div>
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 0;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 5;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 0;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 4;"></div>
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 3;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-0" style="--i: 4;"></div>
+            <div class="wave-block pattern-1" style="--i: 2;"></div>
+        </div> 
+        
+        <div class = "pattern-container">
+            <div class="wave-block pattern-1" style="--i: 1;"></div>
+            <div class="wave-block pattern-0" style="--i: 2;"></div>
+        </div> 
+        
+    </div>
+  </main>
+  <footer>
+
+    <p>Copyright @bedgirb 2026 . All rights reserved.</p>
+
+  </footer>
+</body>
+</html>

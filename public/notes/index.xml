@@ -6,8 +6,22 @@
     <description>Recent content in My Notes on Bedgirb</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 18 Mar 2026 11:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 07 May 2026 11:00:00 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Idea Behind Async Runtimes, Part 2: Futures in rust</title>
+      <link>http://localhost:1313/notes/futures-in-rust/</link>
+      <pubDate>Thu, 07 May 2026 11:00:00 -0700</pubDate>
+      <guid>http://localhost:1313/notes/futures-in-rust/</guid>
+      <description>&lt;p&gt;One of the major sources of confusion when doing async work is the difference between concurrency and parallelism. They look similar on the surface, but they&amp;rsquo;re actually distinct.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Parallelism&lt;/strong&gt; is when separate tasks run truly independently, at the same time, unaffected by each other, like two people each working on their own task simultaneously. This needs multiple CPU cores to actually happen.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Concurrency&lt;/strong&gt;, on the other hand, is about managing multiple tasks so they can all make progress, even on a single core. This is done through context switching: the CPU rapidly hops between tasks, giving priority to bits of each, so fast that it creates the illusion they&amp;rsquo;re happening at the same time, even though at any given instant only one is actually executing.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Idea Behind Async Runtimes, Part 1: How JavaScript Does It</title>
+      <link>http://localhost:1313/notes/async-await-in-a-nutshell/</link>
+      <pubDate>Tue, 05 May 2026 11:00:00 -0700</pubDate>
+      <guid>http://localhost:1313/notes/async-await-in-a-nutshell/</guid>
+      <description>&lt;p&gt;Async runtimes were first introduced to me by my very old friend, JavaScript. Promise resolution was one of the most interesting topics JavaScript has to offer, not to mention implicit type coercion. In this note, I&amp;rsquo;ll cover the topic from callbacks, promises and asyc/await and try to make sense of why it existed.&lt;/p&gt;&#xA;&lt;h2 id=&#34;setting-up-the-problem&#34;&gt;Setting up the problem&lt;/h2&gt;&#xA;&lt;p&gt;To understand this, let&amp;rsquo;s build something concrete: an input that reads a file and displays its text content on screen but &lt;strong&gt;only if the file size is under 2KB&lt;/strong&gt;. Try it yourself, or follow the rundown below. It&amp;rsquo;s pretty basic.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>How to look at life?</title>
       <link>http://localhost:1313/notes/how-to-look-at-life/</link>
