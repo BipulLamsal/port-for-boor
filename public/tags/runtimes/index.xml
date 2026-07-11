@@ -9,7 +9,7 @@
     <lastBuildDate>Thu, 07 May 2026 11:00:00 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/runtimes/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Idea Behind Async Runtimes, Part 2: Futures in rust</title>
+      <title>Idea Behind Async Runtimes, Part 2: Understanding Future in Rust</title>
       <link>http://localhost:1313/notes/futures-in-rust/</link>
       <pubDate>Thu, 07 May 2026 11:00:00 -0700</pubDate>
       <guid>http://localhost:1313/notes/futures-in-rust/</guid>
