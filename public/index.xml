@@ -6,8 +6,15 @@
     <description>Recent content in Home on Bedgirb</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 May 2026 11:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2026 11:00:00 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Summer at VLC - GSoC26</title>
+      <link>http://localhost:1313/notes/my-contribution-in-vlc/</link>
+      <pubDate>Wed, 10 Jun 2026 11:00:00 -0700</pubDate>
+      <guid>http://localhost:1313/notes/my-contribution-in-vlc/</guid>
+      <description>&lt;h1 id=&#34;my-understanding-on-vlc-plugin-based-modules&#34;&gt;My understanding on VLC plugin based modules&lt;/h1&gt;&#xA;&lt;p&gt;VLC core src (libvlc) is relatively small; everything else (codecs, demuxers, access, lua, etc) exists as seperate shared object (plugins). Even we can create the module, with the macro : &lt;code&gt;vlc_module_begin()&lt;/code&gt;, which is a compile time macro that lets us declare a module (inside a plugin, the shared object) with its name, a capability (demux, access, etc) with priority score, and callbacks to open and close the module. A single shared object can contain multiple sub module. see for example for &lt;a href=&#34;https://code.videolan.org/videolan/vlc/-/blob/master/modules/lua/vlc.c?ref_type=heads#L653&#34;&gt;lua module&lt;/a&gt;. VLC finds its plugins from plugins directory and opens all the dynamic libraries as needed. On runtime &lt;code&gt;module_need()&lt;/code&gt; is used to load the module based on the capabilities, based on the score it goes trigger the open callbacks until it finds the desired module. On a high level this is how vlc plugin loads and works together.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Idea Behind Async Runtimes, Part 2: Understanding Future in Rust</title>
       <link>http://localhost:1313/notes/futures-in-rust/</link>
@@ -35,6 +42,20 @@
       <pubDate>Fri, 09 Jun 2023 11:00:00 -0700</pubDate>
       <guid>http://localhost:1313/notes/basic-linux-cron-job/</guid>
       <description>&lt;p&gt;As an Asian, I&amp;rsquo;m familiar with my parents always keeping a close eye on me, checking if I&amp;rsquo;m studying, gaming, or chatting. It&amp;rsquo;s like they have a background process running, giving those bombastic side eye 👀 glances. Similarly, Linux&amp;rsquo;s cron job operates silently in the background, automating tasks. I found this parallel intriguing: both involve monitoring and control. There is a cron daemon already inside Linux that helps you execute commands or scripts at predefined time intervals. We can automate tasks like&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/notes/building-your-own-executor-in-rust/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/notes/building-your-own-executor-in-rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/notes/mocking-net-module-in-vlc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/notes/mocking-net-module-in-vlc/</guid>
+      <description></description>
     </item>
   </channel>
 </rss>

@@ -6,8 +6,15 @@
     <description>Recent content in My Notes on Bedgirb</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 May 2026 11:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jun 2026 11:00:00 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/notes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Summer at VLC - GSoC26</title>
+      <link>http://localhost:1313/notes/my-contribution-in-vlc/</link>
+      <pubDate>Wed, 10 Jun 2026 11:00:00 -0700</pubDate>
+      <guid>http://localhost:1313/notes/my-contribution-in-vlc/</guid>
+      <description>&lt;h1 id=&#34;my-summer-at-vlc--gsoc26&#34;&gt;My Summer at VLC : GSoC&#39;26&lt;/h1&gt;&#xA;&lt;p&gt;During my summer, I got the opportunity to work on one of the OG open-source software projects on the internet: VLC. My GSoC project was about building a test runner for Lua modules with a mocked backend (I&amp;rsquo;ll get into what this means later). I would like to thank my mentor, Alexandre Janniaux, for helping me get into the VLC codebase, understand how tests are written, how VLC works internally, its modules and object trees, and for giving me ideas about the project itself, along with some useful tooling such as Gcov and Jujutsu.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Idea Behind Async Runtimes, Part 2: Understanding Future in Rust</title>
       <link>http://localhost:1313/notes/futures-in-rust/</link>
@@ -35,6 +42,20 @@
       <pubDate>Fri, 09 Jun 2023 11:00:00 -0700</pubDate>
       <guid>http://localhost:1313/notes/basic-linux-cron-job/</guid>
       <description>&lt;p&gt;As an Asian, I&amp;rsquo;m familiar with my parents always keeping a close eye on me, checking if I&amp;rsquo;m studying, gaming, or chatting. It&amp;rsquo;s like they have a background process running, giving those bombastic side eye 👀 glances. Similarly, Linux&amp;rsquo;s cron job operates silently in the background, automating tasks. I found this parallel intriguing: both involve monitoring and control. There is a cron daemon already inside Linux that helps you execute commands or scripts at predefined time intervals. We can automate tasks like&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/notes/building-your-own-executor-in-rust/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/notes/building-your-own-executor-in-rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/notes/mocking-net-module-in-vlc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/notes/mocking-net-module-in-vlc/</guid>
+      <description></description>
     </item>
   </channel>
 </rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lua on Bedgirb</title>
+    <link>http://localhost:1313/tags/lua/</link>
+    <description>Recent content in Lua on Bedgirb</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 10 Jun 2026 11:00:00 -0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/lua/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>My Summer at VLC - GSoC26</title>
+      <link>http://localhost:1313/notes/my-contribution-in-vlc/</link>
+      <pubDate>Wed, 10 Jun 2026 11:00:00 -0700</pubDate>
+      <guid>http://localhost:1313/notes/my-contribution-in-vlc/</guid>
+      <description>&lt;h1 id=&#34;my-summer-at-vlc--gsoc26&#34;&gt;My Summer at VLC : GSoC&#39;26&lt;/h1&gt;&#xA;&lt;p&gt;During my summer, I got the opportunity to work on one of the OG open-source software projects on the internet: VLC. My GSoC project was about building a test runner for Lua modules with a mocked backend (I&amp;rsquo;ll get into what this means later). I would like to thank my mentor, Alexandre Janniaux, for helping me get into the VLC codebase, understand how tests are written, how VLC works internally, its modules and object trees, and for giving me ideas about the project itself, along with some useful tooling such as Gcov and Jujutsu.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
