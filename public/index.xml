@@ -43,19 +43,5 @@
       <guid>http://localhost:1313/notes/basic-linux-cron-job/</guid>
       <description>&lt;p&gt;As an Asian, I&amp;rsquo;m familiar with my parents always keeping a close eye on me, checking if I&amp;rsquo;m studying, gaming, or chatting. It&amp;rsquo;s like they have a background process running, giving those bombastic side eye 👀 glances. Similarly, Linux&amp;rsquo;s cron job operates silently in the background, automating tasks. I found this parallel intriguing: both involve monitoring and control. There is a cron daemon already inside Linux that helps you execute commands or scripts at predefined time intervals. We can automate tasks like&lt;/p&gt;</description>
     </item>
-    <item>
-      <title></title>
-      <link>http://localhost:1313/notes/building-your-own-executor-in-rust/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/notes/building-your-own-executor-in-rust/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>http://localhost:1313/notes/mocking-net-module-in-vlc/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/notes/mocking-net-module-in-vlc/</guid>
-      <description></description>
-    </item>
   </channel>
 </rss>
