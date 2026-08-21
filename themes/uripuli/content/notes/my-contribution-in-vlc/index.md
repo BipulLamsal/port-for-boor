@@ -142,5 +142,168 @@ In testing terms:
 
 Interesting part here is the testing script, that allows a scipt author to assert and control the VLC environment such as dialogs, playlist,etc. they want via lua script.
 
-# Lua test framework
--- todo
+# Test Runner 
+Our test runner hashed required opts flags for
+- (--mode/-m) mode(playlist/extension), which helps in dir scan on the DUT script (* required)
+- (--test-script/-t) lua script for DUT (* required)
+- (--scripts-dir/-d) the dir scan where the harness looks for  (default: /share/lua) (* required)
+- (--record/-r) the recording layer needs the libvlccore and libvlc which is dynamically loaded in case of the stream.
+
+```lua
+-- /share/lua/playlist.lua
+
+function probe()
+    return vlc.path == "some_path" -- either true or false 
+end
+
+function probe()
+    -- parsing  
+    assert(vlc.readline()=="your_line")
+    return {{
+        title: "",
+        --snip
+        }} 
+end
+
+```
+
+typically to test this parser, you needs to build vlc > stream > add_stream > then it finds the demux luaplaylist > then it opens the access > finally you get segfault ;)
+
+```lua
+-- test script for above DUT
+-- test.lua
+
+function test_check_parsed_title()
+    local module = vlc.test.playlist_parser("playlist.lua")
+    assert(module:probe()) -- checks if our scirpt actually probes
+    assert(module:parse()[1].title == "")
+end
+```
+
+But, with our test runner we do first record to have fixture locally ./vlc-lua-mock -m playlist -t test.lua --record, now sometime later you can make changes on the DUT and stil test it wihout reacing the acutal stream.
+
+
+How does it work?
+
+- First we register name space in Lua State with vlc.test
+```C
+static const struct luaL_Reg vlc_base_funcs[] = {{NULL, NULL}};
+
+luaL_register_namespace(L, "vlc", vlc_base_funcs);
+// stack: [vlc]
+
+lua_newtable(L); // stack: [vlc, test] stack: [-2, -1]
+luaL_register(L, NULL, vlc_test_funcs); // stack: [vlc, test]
+lua_setfield(L, -2, "test"); // vlc.test = test, and pops test
+lua_pop(L, 1); //pop vlc to balance stack
+
+```
+
+LUA API are confusing because of the stack and indices, but here is what i learned:
+- set* consumes meaning it automatically pops the top of the index.
+- get* producces means it pushes to the stack
+- check* has no change on the stack
+- -1 is the index top of the stack, -2 is second from the top
+- usually if stack is like this [vlc, test, table] we can set the test table with module table 
+by simple : lua_setfield(L, -2, "module"), this will make the top of the index table name module and 
+sets witht he vlc.test and pops it. with stack now [vlc,test]
+
+in this way we register vlc.test.playlist_parser(), where playlist parser accepts a DUT script field. (luaL_checkstring). Previously, I had the state attached with the vlc_object_t. 
+``` C
+typedef struct vlc_mock_object_t{
+    vlc_object_t *obj
+    char         *test_script
+}
+
+```
+But they could be only signatures like this : stream_t itself being inherited as object, we cannot really get the our configs by typecasting.    
+
+``` C
+ssize_t vlc_stream_Read(stream_t *s, void *buf, size_t len)
+char   *vlc_stream_ReadLine(stream_t *s)
+void    vlc_stream_Delete(stream_t *s)
+```
+
+Now, we have the which file to open by the via `vlclua_scripts_batch_execute` in /modules/lua/vlc.c, which will execute func on all scripts in luadirname, and stop if func returns. But in our case we only need one script to be executed. so dont link the source vlc.c, but we add
+
+``` meson
+playlist_parser_source = files(
+  '../../../../modules/lua/stream_filter.c',
+  '../../../../modules/lua/libs/messages.c',
+  '../../../../modules/lua/libs/variables.c',
+  '../../../../modules/lua/libs/stream.c',
+  '../../../../modules/lua/libs/strings.c',
+  '../../../../modules/lua/libs/xml.c',
+  '../../../../modules/lua/libs/misc.c',
+)
+```
+
+as the stream_filter.c calls and exposes the lua api to the DUT.
+``` C
+    luaopen_msg( L );
+    luaopen_strings( L );
+    luaopen_stream( L );
+    luaopen_variables( L );
+    luaopen_xml( L );
+```
+In vlc stream goes through layer, but our mocked backedn we directly intercept, so acesss, cahce, stream_filter, nothing is touched in the fixture
+```
+access module HTTP            <-- absent, never reached
+<-- cache/prefetch filter     <-- absent
+<-- stream filter category    <-- absent (vlc_stream_FilterNew returns NULL)
+<-- demux / lua module        <-- present 
+```
+
+But in case of recording mode, we dynamically use them to create a new url so it will run all the layer that were absent :
+``` C
+
+    void* libvlccore = dlopen(TOP_BUILDDIR "/src/libvlccore.so", RTLD_LAZY);
+
+    g_vlclua_record.cbs.stream_read   = dlsym(libvlccore, "vlc_stream_Read");
+    g_vlclua_record.cbs.stream_new    = dlsym(libvlccore "vlc_stream_NewURL");
+    g_vlclua_record.cbs.stream_delete = dlsym(libvlccore, "vlc_stream_Delete");
+
+```
+
+so, the typically the stream in recording mode goes through the real stream url, then we read using vlc_stream_Read, save the fixture as raw data locally. It also md5 vlc hashing function to make a lookup easier.
+
+``` C
+    char output[VLC_HASH_MD5_DIGEST_HEX_SIZE]; // size of 33 bytes 
+    vlc_hash_md5_t md5;
+    vlc_hash_md5_Init(&md5);
+    vlc_hash_md5_Update(&md5, string, strlen(string))  
+
+    // we can have the strlen with +1 here to take the /0 as well so we avoid collision
+    // if vlc_hash_md5_Update(&md5, string, strlen(string)) is performed with text 
+    // "some" at first and then "nice url" then we generate some hash
+    // now if we did at first "some nice" and second "url", we generate the same hash 
+    // in both case. this could be problemm if first and second terms are key and 
+    // value pair while generating the hash.
+
+    vlc_hash_FinishHex(&md5, output)
+```
+
+It also has directory, key value pair to generate because util function should take not just url but some other parameters that other can control. Like in tcp the host:port is same for the multiple request sent. So we can use the request as the key and value to uniquely generate the name for our fixture.
+
+``` C
+vlc_dictionary_t request;
+vlc_dictionary_init(dict, 1);
+vlc_dictionary_insert(dict, key, (void *)value);
+
+// get keys
+char **keys = vlc_dictionary_all_keys(&request);
+// get value
+char *value = vlc_dictionary_value_for_key(&request, keys[0]);
+
+// clean
+vlc_dictionary_clear();
+
+// more info : includes/vlc_arrays.h  
+```
+
+In this way the stream url is hased, and later when neede they are loaded into the memory using: `vlc_stream_MemoryNew` which is compiled from : `src/input/stream_memory.c`.
+
+![fixture recorindg mode](./2.png)
+
+
+
