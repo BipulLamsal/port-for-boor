@@ -11,7 +11,7 @@ tags = ['C','Lua', 'VLC', 'Open Source']
 
 This summer I got to work on VLC, one of the OG open source projects on the internet. My GSoC project was building a test runner for VLC's Lua modules with a mocked backend (I'll get into what that means below).
 
-Big thanks to my mentor, Alexandre Janniaux, for helping me find my way around the VLC codebase, showing me how tests are written there and how VLC works inside with its modules and object trees, giving me ideas for the project itself, and pointing me at tools like Gcov and Jujutsu along the way.
+I would like to thank my mentor, Alexandre Janniaux, for helping me find my way around the VLC codebase, showing me how tests are written and how VLC internals its modules and object trees, giving me ideas for the project itself, and pointing me at tools like Gcov and Jujutsu along the way.
 
 # My understanding on VLC plugin based modules
 
