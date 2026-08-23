@@ -407,11 +407,11 @@ The harness covers playlist parsers and extensions. In my proposal the scope was
 
 - The harness calls VLC's functions (lua_ExtensionActivate(), lua_ExtensionDeactivate()) directly instead of putting them on the command queue. So it cannot catch bugs about timing and ordering, like a close being queued but not run yet. So maybe we need to add queue handling. VLSub uses vlc.deactivate() to queue the Deactivate command, which in real VLC goes through a separate thread, but in our case we check after every widget click whether a command got queued and whether it is a Deactivate. Works for now but needs wider support for the other commands as well, like CMD_SET_INPUT and CMD_UPDATE_META, which VLC pushes on its own when the playing media or its metadata changes. An extension that listens for those cannot be tested at all right now.
 
-- The runner is standalone and needs no VLC build or network once the fixtures exist, which was the whole point, so wiring it into CI is mostly about deciding where the fixtures live and how they get refreshed.
+- Maybe integrate with ci test. Currently It builds as its own binary under test/modules/lua/mock. Making it a proper test target, so meson test runs the Lua script tests too, would put script regressions and show any breaking changes.
 
-- It builds as its own binary under test/modules/lua/mock right now. Making it a proper test target, so meson test runs the Lua script tests too, would put script regressions and show any breaking changes.
+- Maybe HTTP archives (HAR, json) for the fixtures. I save the raw response with no format for now, because tcp would need serialising on top of that and it felt like an extra step. This gives us disadvantage as we dont have manifest to know which fixture belongs to what, only our program know via hash.
 
-- My mentor suggested HTTP archives (HAR, json) for the fixtures. I save the raw response with no format for now, because tcp would need serialising on top of that and it felt like an extra step. This gives us disadvantage as we dont have manifest to know which fixture belongs to what, only our program know via hash.
+- Not everything is mocked, Issues will surely rise for the stubed backend, which should be fixted with the DUT need.     
 
 
 # Final Words
