@@ -1,7 +1,6 @@
 +++
 title = 'My Summer at VLC - GSoC26'
-description = 'Building a test harness for VLC Lua modules'
-date = 2026-07-10T11:00:00-07:00
+date = 2026-08-10T11:00:00-07:00
 draft = false
 tags = ['C','Lua', 'VLC', 'Open Source']
 +++
