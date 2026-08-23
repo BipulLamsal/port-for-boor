@@ -411,10 +411,10 @@ The harness covers playlist parsers and extensions. In my proposal the scope was
 
 - Maybe HTTP archives (HAR, json) for the fixtures. I save the raw response with no format for now, because tcp would need serialising on top of that and it felt like an extra step. This gives us disadvantage as we dont have manifest to know which fixture belongs to what, only our program know via hash.
 
-- Not everything is mocked, Issues will surely rise for the stubed backend, which should be fixted with the DUT need.     
+- Not everything is mocked, Issues will surely rise for the stubed backend, which should be fixed with the DUT need.     
 
 
 # Final Words
-I have always loved open source and I contribute to different projects whenever I can. But with VLC, I gave it enough time to actually understand it. My biggest learning was C itself, along with Lua and the VLC codebase. I got plenty of segfaults, and gdb was a rescue every single time. I got better at ripgrep and at reading code I did not write. jj became one of my favourite tools. I even installed [this plugin](https://github.com/sphamba/smear-cursor.nvim) because my mentor used it and I thought it was so cool that I could not stop. Every day was a new learning, and for me learning is always the main mantra. 
+I have always loved open source and I contribute to different projects whenever I can. But with VLC, I gave it enough time to actually understand it. My biggest learning was C itself, along with Lua and the VLC codebase. I got plenty of segfaults, and gdb was a rescue every single time. I got better at ripgrep and at reading code I did not write. jj became one of my favourite tools. I even installed [this plugin](https://github.com/sphamba/smear-cursor.nvim) because my mentor used it and it was so cool that I could not stop. Every day was a new learning, and for me learning is always the main mantra. 
 
 Overall it was a rich experience. This is not the end of the journey though, I will keep contributing to the community as much as I can. Thankyou for reading!         
