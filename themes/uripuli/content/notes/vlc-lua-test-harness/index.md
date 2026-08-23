@@ -1,7 +1,6 @@
 +++
 title = 'My Summer at VLC - GSoC26'
 date = 2026-08-10T11:00:00-07:00
-draft = false
 tags = ['C','Lua', 'VLC', 'Open Source']
 +++
 
