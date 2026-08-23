@@ -6,14 +6,14 @@
     <description>Recent content in Home on Bedgirb</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Jun 2026 11:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 10 Jul 2026 11:00:00 -0700</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My Summer at VLC - GSoC26</title>
-      <link>http://localhost:1313/notes/my-contribution-in-vlc/</link>
-      <pubDate>Wed, 10 Jun 2026 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/notes/my-contribution-in-vlc/</guid>
-      <description>&lt;h1 id=&#34;my-understanding-on-vlc-plugin-based-modules&#34;&gt;My understanding on VLC plugin based modules&lt;/h1&gt;&#xA;&lt;p&gt;VLC core src (libvlc) is relatively small; everything else (codecs, demuxers, access, lua, etc) exists as seperate shared object (plugins). Even we can create the module, with the macro : &lt;code&gt;vlc_module_begin()&lt;/code&gt;, which is a compile time macro that lets us declare a module (inside a plugin, the shared object) with its name, a capability (demux, access, etc) with priority score, and callbacks to open and close the module. A single shared object can contain multiple sub module. see for example for &lt;a href=&#34;https://code.videolan.org/videolan/vlc/-/blob/master/modules/lua/vlc.c?ref_type=heads#L653&#34;&gt;lua module&lt;/a&gt;. VLC finds its plugins from plugins directory and opens all the dynamic libraries as needed. On runtime &lt;code&gt;module_need()&lt;/code&gt; is used to load the module based on the capabilities, based on the score it goes trigger the open callbacks until it finds the desired module. On a high level this is how vlc plugin loads and works together.&lt;/p&gt;</description>
+      <link>http://localhost:1313/notes/vlc-lua-test-harness/</link>
+      <pubDate>Fri, 10 Jul 2026 11:00:00 -0700</pubDate>
+      <guid>http://localhost:1313/notes/vlc-lua-test-harness/</guid>
+      <description>&lt;h2 id=&#34;a-test-harness-for-vlc-lua-scripts&#34;&gt;A test harness for VLC Lua scripts&lt;/h2&gt;&#xA;&lt;p&gt;This summer I got to work on VLC, one of the OG open source projects on the internet. My GSoC project was building a test runner for VLC&amp;rsquo;s Lua modules with a mocked backend (I&amp;rsquo;ll get into what that means below).&lt;/p&gt;&#xA;&lt;p&gt;Big thanks to my mentor, Alexandre Janniaux, for helping me find my way around the VLC codebase, showing me how tests are written there and how VLC works inside with its modules and object trees, giving me ideas for the project itself, and pointing me at tools like Gcov and Jujutsu along the way.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Idea Behind Async Runtimes, Part 2: Understanding Future in Rust</title>
