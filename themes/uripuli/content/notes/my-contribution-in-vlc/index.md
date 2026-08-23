@@ -1,6 +1,6 @@
 +++
 title = 'My Summer at VLC - GSoC26'
-date = 2026-06-10T11:00:00-07:00
+date = 2026-07-10T11:00:00-07:00
 draft = false
 tags = ['C','Lua', 'VLC', 'Open Source']
 +++
@@ -305,5 +305,145 @@ In this way the stream url is hased, and later when neede they are loaded into t
 
 ![fixture recorindg mode](./2.png)
 
+```lua
+-- select the dut from this api 
+local pp = vlc.test.playlist_parser("playlist.lua")
 
+-- probe tirggers the probe function in the DUT 
+assert(pp:probe("https://example.com")) -- this is the stream_t we consume and find the fixture 
+```
+
+After a successful probe, call `pp:parse()` to run the dut and get back an array of item tables.
+
+```lua
+local items = pp:parse()
+```
+Calling `parse()` before a successful `probe()` raises an error. Each item in the returned array
+looks like this:
+
+```lua
+{
+  path = "...",
+  name = "...",
+  duration = 0, 
+  options = { "opt1", "opt2" },
+  metadata = {
+    title = "...",
+    artist = "...",
+    -- snip
+    }
+}
+```
+
+## Extension Module
+
+Extension module with lua module gives user to build the dialogs, ui components, use vlc.net module.
+
+``` meson 
+extension_source = files(
+  '../../../../modules/lua/libs/playlist.c',
+  '../../../../modules/lua/vlclua_dir.c',
+  '../../../../modules/lua/extension.c',
+  '../../../../modules/lua/extension_thread.c',
+  '../../../../modules/lua/libs/dialog.c',
+  '../../../../modules/lua/libs/net.c', 
+  '../../../../modules/lua/libs/io.c',
+  '../../../../modules/lua/libs/errno.c',
+  '../../../../modules/lua/libs/configuration.c',
+  '../../../../modules/lua/libs/input.c',
+)
+
+```
+
+We run the extension module from our harness without module probing or vlc tree, just direct call to the entry of the module
+```
+// setting the scirpt to scan so the vlclua_scripts_batch_execute gets the correct file to open 
+g_vlclua_mock_config.dut = p_sys->psz_script;
+
+extensions_manager_t *p_mgr = calloc(1, sizeof(*p_sys->p_mgr));
+Open_Extension(VLC_OBJECT(p_sys->p_mgr)); // runst the acutal lua scirpt
+```
+
+In extension dialogs and net module are mostly used by VLSub.lua. 
+For dialog module, a global instance of config with dialog is stored.
+`g_vlclua_mock_config.state->dialog`. Our gloabl mock state we store for test acutally looks like this:
+```C
+
+typedef struct {
+    vlclua_mock_sandbox_t  *sandbox; /* used for tcp callbacks storage from the lua state of test script */ 
+    extension_dialog_t   *dialog; /* dialog state, helps to get the widgets */
+    vlc_playlist_t       *playlist; /* gloabl instance of mocked playlist */
+    vlc_player_t         *player;
+    vlc_array_t           net_conns; /* net_ConnectTCP only returns a fd, so a single script can have multiple conns */
+    vlc_dictionary_t      modules;
+    unsigned              net_call; /* to make the net request we need to have this sequence */
+} vlclua_mock_state_t;
+
+
+We have the live dialog state, that is currently in access by the DUT scirpt, thats why we are able to look into widgets and have control form the test framework as well.
+
+```
+// for each update to dialog it gets called 
+
+#undef vlc_ext_dialog_update
+int vlc_ext_dialog_update(vlc_object_t *p_obj, extension_dialog_t *dialog)
+{
+    // we get update dialog everytime 
+    VLC_UNUSED(p_obj);
+    g_vlclua_mock_config.state->dialog =
+        (dialog->b_kill || dialog->b_hide) ? NULL : dialog;
+    return VLC_SUCCESS;
+}
+
+```
+
+Since we have the live copy of the extension that is used by both lua states: test harness and the dut. We can expose api soem api for testing framework to simulate clikc, update field values, etc. we can expose api to attach with dialog.
+
+``` C
+static const struct luaL_Reg dialog_funcs[] = {
+    { "get_widget",   lua_dialog_get_widget },
+    { "get_form",     lua_dialog_get_form }, 
+    { "get_title",    lua_dialog_get_title },
+    { "widget_count", lua_dialog_widget_count },
+    { NULL, NULL }
+};
+static int lua_dialog_get_widget(lua_State *L) {
+    lua_test_dialog_t **pp = luaL_checkudata(L, idx, DIALOG_META);
+    int index = luaL_checkinteger(L, 2); 
+    // currently it uses number of its creation or simply the array index of the widget to get it 
+    // because extension widgets has no unique idenifier.
+
+    extension_widget_t *p_widget = *pp->p_dialog->widgets.p_elems[index - 1];
+    // we ccan push this widget to the lua state
+    // so lua test framework can use it  to control the widget 
+}
+
+```
+
+since, we dont really have a way to select particular field, there is a expoed api called get_form, which select the widgest by name and the next to it on the arraay.
+usualy a lable and a field go side by side. When I search a lable then the next item will be field. It's based on assumtion, the script writer may create label first and then another lable and then the fields in such case the get_from might not work.
+
+
+In this way the dialogs are contorlled form the test script to the DUT.
+
+The another interesting mock, which i really enjoyed was. The net module. So, what really happens is
+```lua
+
+ vlc.net.connect_tcp(host, port) -- connect tcp
+ vlc.net.send(fd, request) -- sends some request
+ vlc.net.poll(pollfds) -- hold till we get reply because send is async
+ local chunk = vlc.net.recv(fd, 2048) -- receive
+
+```
+ In our It goes through the `net_ConnectTCP`, we take the host and port name along with sequence number to generate a md5 hash and then save it in `--record` mode. While the tester can also sandbox the environment of the tcp with on_connect and on_request callbacks so no fixture is required. They can control via the test script itself. Here is the flow of what happens in both the scenarios: record and playback:
+
+ ![image_for_tcp_mock](./3.png)
+
+
+Now, the tcp request is an async function we cannot really hold the thread inside the `net_ConnectTCP` because it needs to return the fd. So, we create a thread acting as a mock server so we interecpt the tcp request sent from the DUT. we used `vlc_clone(&ctx->thread, mock_server, ctx)` to create a thread, and `vlc_join` to wait the thread to completion. A simpel flow of the request response cycle from the dut to our mock server is here:
+
+ ![image_for_response](./4.png)
+
+
+We have used the `network/io.c` network utilities from the vlc soruce itself. This way, we load the fixture file and open the fd of the file to send to the dut.
 
