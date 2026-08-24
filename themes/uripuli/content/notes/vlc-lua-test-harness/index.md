@@ -11,6 +11,8 @@ This summer I got to work on VLC, one of the OG open source projects on the inte
 
 I would like to thank my mentor, Alexandre Janniaux, for helping me find my way around the VLC codebase, showing me how tests are written and how VLC internals its modules and object trees, giving me ideas for the project itself, and pointing me at tools like Gcov and Jujutsu along the way.
 
+Here is my work: https://code.videolan.org/bipul_lamsal/vlc/-/merge_requests/3.   
+
 # My understanding on VLC plugin based modules
 
 VLC core src (libvlc) is relatively small; everything else (codecs, demuxers, access, lua, etc) exists as separate shared objects (plugins). We can create a module ourselves with the macro `vlc_module_begin()`, which is a compile time macro that lets us declare a module (inside a plugin, the shared object) with its name, a capability (demux, access, etc) with a priority score, and callbacks to open and close the module. A single shared object can contain multiple submodules. See for example the [lua module](https://code.videolan.org/videolan/vlc/-/blob/master/modules/lua/vlc.c?ref_type=heads#L653). VLC finds its plugins from the plugins directory and opens all the dynamic libraries as needed. At runtime `module_need()` is used to load a module based on the capability, and based on the score it goes on triggering the open callbacks until it finds the desired module. On a high level this is how a vlc plugin loads and works together.
